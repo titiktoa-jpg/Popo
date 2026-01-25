@@ -3,143 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Royal PokDeng - ป๊อกเด้งออนไลน์</title>
+    <title>Lucky Wheel Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Kanit', sans-serif; background: #0f2027; background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); color: white; overflow-x: hidden; }
-        
-        /* --- 3D CARD ANIMATIONS --- */
-        .perspective-1000 { perspective: 1000px; }
-        .card-container { width: 80px; height: 112px; position: relative; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
-        .card-container.flipped { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 2px solid #fff; }
-        .card-back { background: repeating-linear-gradient(45deg, #b91c1c, #b91c1c 10px, #991b1b 10px, #991b1b 20px); transform: rotateY(0deg); }
-        .card-front { background: white; color: black; transform: rotateY(180deg); }
-        
-        /* Suits Colors */
-        .suit-red { color: #dc2626; }
-        .suit-black { color: #1e293b; }
-
-        /* Animations */
-        @keyframes dealCard {
-            0% { transform: translate(-200%, -200%) rotate(-720deg) scale(0.5); opacity: 0; }
-            100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-        }
-        .deal-animate { animation: dealCard 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(234, 179, 8, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
-        }
-        .pok-glow { animation: pulse-gold 1.5s infinite; border: 3px solid #fbbf24; }
-
-        .hidden { display: none !important; }
+        body { font-family: 'Kanit', sans-serif; background: #0f0c29; background: linear-gradient(to right, #24243e, #302b63, #0f0c29); color: white; overflow-x: hidden; }
+        .neon-text { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00de, 0 0 30px #ff00de; }
+        .wheel-container { position: relative; width: 320px; height: 320px; margin: 0 auto; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); }
+        #canvas { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); transform: rotate(0deg); }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 40px; height: 50px; background: #fbbf24; clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 10; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        .modal { transition: opacity 0.3s ease-in-out; }
+        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative">
+<body class="min-h-screen flex flex-col">
 
-    <div id="auth-screen" class="fixed inset-0 z-50 bg-slate-900 flex items-center justify-center p-6 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
-        <div class="bg-slate-800/90 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-slate-700">
-            <div class="text-center mb-8">
-                <h1 class="text-5xl font-bold text-yellow-400 drop-shadow-lg">ROYAL 9</h1>
-                <p class="text-slate-400 mt-2">ป๊อกเด้งออนไลน์ อันดับ 1</p>
-            </div>
-            <input type="email" id="email" placeholder="อีเมล" class="w-full p-4 mb-4 bg-slate-700/50 rounded-xl text-white border border-slate-600 focus:border-yellow-500 outline-none transition">
-            <input type="password" id="password" placeholder="รหัสผ่าน" class="w-full p-4 mb-6 bg-slate-700/50 rounded-xl text-white border border-slate-600 focus:border-yellow-500 outline-none transition">
-            <button onclick="login()" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-black font-bold py-4 rounded-xl shadow-lg transform transition active:scale-95 mb-3">เข้าสู่ระบบ</button>
-            <button onclick="register()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 rounded-xl transform transition active:scale-95">สมัครสมาชิก</button>
+    <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
+        <div class="w-full max-w-sm p-8 glass rounded-2xl text-center">
+            <h1 class="text-4xl font-bold mb-2 neon-text">SPIN WIN</h1>
+            <p class="text-gray-400 mb-6">หมุนลุ้นรวย ระบบอัจฉริยะ</p>
+            <input type="email" id="email" placeholder="Email" class="w-full p-3 mb-3 bg-white/10 rounded border border-white/20 text-white outline-none focus:border-pink-500">
+            <input type="password" id="password" placeholder="Password" class="w-full p-3 mb-6 bg-white/10 rounded border border-white/20 text-white outline-none focus:border-pink-500">
+            <button onclick="login()" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">เข้าสู่ระบบ</button>
+            <button onclick="register()" class="mt-4 text-sm text-gray-400 hover:text-white">ยังไม่มีบัญชี? สมัครใหม่</button>
         </div>
     </div>
 
-    <div id="game-ui" class="hidden flex-1 flex flex-col max-w-lg mx-auto w-full h-screen shadow-2xl bg-green-900 relative border-x-4 border-yellow-900">
+    <div id="app-ui" class="hidden flex-1 flex flex-col max-w-md mx-auto w-full min-h-screen bg-black/40 shadow-2xl relative">
         
-        <div class="bg-black/40 backdrop-blur p-4 flex justify-between items-center border-b border-white/10 absolute top-0 w-full z-20">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-400 to-yellow-600 flex items-center justify-center font-bold text-black text-lg shadow">🤠</div>
+        <div class="p-4 flex justify-between items-center glass m-2 rounded-xl">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-xl">🦄</div>
                 <div>
-                    <div class="text-xs text-yellow-400 font-bold" id="user-display">Guest</div>
-                    <div class="text-[10px] text-gray-300">ID: <span id="uid-display">...</span></div>
+                    <div id="u-email" class="text-xs text-gray-300">Loading...</div>
+                    <div class="font-bold text-yellow-400">฿ <span id="u-balance" class="text-xl">0</span></div>
                 </div>
             </div>
-            <div class="bg-black/60 px-4 py-1 rounded-full border border-yellow-500/30 flex items-center gap-2 shadow-inner">
-                <span class="text-yellow-400 text-lg">฿</span>
-                <span id="balance-display" class="font-bold text-xl text-white">0</span>
+            <button onclick="openWallet()" class="bg-white/20 px-3 py-1 rounded-lg text-xs hover:bg-white/30">กระเป๋าตังค์</button>
+        </div>
+
+        <div class="px-4 mt-2">
+            <h3 class="text-gray-400 text-xs mb-2 uppercase tracking-widest">เลือกเกมที่คุณต้องการเล่น</h3>
+            <div id="wheel-list" class="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
+                <div class="animate-pulse bg-white/10 w-32 h-20 rounded-xl flex-shrink-0"></div>
             </div>
         </div>
 
-        <div id="announce-bar" class="absolute top-20 left-0 right-0 z-10 overflow-hidden bg-black/50 backdrop-blur py-1 hidden">
-            <div class="whitespace-nowrap animate-marquee text-yellow-200 text-sm px-4">
-                📢 <span id="announce-text">ยินดีต้อนรับสู่ Royal 9 ป๊อกเด้ง!</span>
-            </div>
-        </div>
-
-        <div class="flex-1 flex flex-col justify-center relative p-4 bg-[url('https://www.transparenttextures.com/patterns/felt.png')]">
+        <div class="flex-1 flex flex-col items-center justify-center relative my-4">
+            <h2 id="wheel-name" class="text-2xl font-bold mb-4 neon-text text-center">เลือกเกมด้านบน</h2>
             
-            <div class="flex flex-col items-center mb-8 relative">
-                <div class="absolute -top-12 bg-red-600 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg border border-red-400 z-10">DEALER (บอท)</div>
-                <div class="flex gap-4 perspective-1000" id="dealer-hand">
-                    <div class="card-container"><div class="card-face card-back"></div></div>
-                    <div class="card-container"><div class="card-face card-back"></div></div>
-                </div>
-                <div id="dealer-status" class="mt-3 bg-black/60 px-4 py-1 rounded-full text-sm font-bold text-gray-300 opacity-0 transition">...</div>
-            </div>
-
-            <div id="result-modal" class="hidden absolute inset-0 z-30 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-                <div class="bg-white p-8 rounded-3xl text-center shadow-2xl border-4 border-yellow-500 animate-bounce">
-                    <h2 id="result-title" class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-600 mb-2">YOU WIN!</h2>
-                    <p id="result-desc" class="text-gray-600 font-bold text-xl mb-4">+500 ฿</p>
-                    <button onclick="resetGame()" class="bg-black text-white px-8 py-3 rounded-full font-bold hover:bg-gray-800 transition">เล่นต่อ</button>
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <canvas id="canvas" width="640" height="640"></canvas>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center z-20 border-4 border-purple-500">
+                    <span class="text-purple-900 font-bold text-xs">SPIN</span>
                 </div>
             </div>
 
-            <div class="flex flex-col items-center mt-auto mb-20">
-                <div class="flex gap-4 perspective-1000" id="player-hand">
-                    <div class="w-20 h-28 border-2 border-dashed border-white/30 rounded-lg bg-white/5 flex items-center justify-center text-white/20">รอไพ่</div>
-                    <div class="w-20 h-28 border-2 border-dashed border-white/30 rounded-lg bg-white/5 flex items-center justify-center text-white/20">รอไพ่</div>
-                </div>
-                <div id="player-status" class="mt-4 bg-yellow-500 text-black px-6 py-1 rounded-full text-lg font-bold shadow-lg transform scale-0 transition duration-300">0 แต้ม</div>
+            <div id="play-controls" class="mt-8 text-center hidden">
+                <p class="text-gray-300 text-sm mb-2">ค่าเล่น: <span id="wheel-cost" class="text-yellow-400 font-bold">0</span> บาท</p>
+                <button onclick="spin()" id="spin-btn" class="bg-gradient-to-b from-yellow-400 to-yellow-600 text-black font-bold text-xl px-12 py-4 rounded-full shadow-lg shadow-yellow-500/50 hover:scale-105 transition transform active:scale-95">
+                    หมุนเลย!
+                </button>
             </div>
-
         </div>
 
-        <div class="bg-black/80 backdrop-blur-md p-4 rounded-t-3xl border-t border-white/10 absolute bottom-0 w-full">
-            <div id="bet-controls" class="flex flex-col gap-3">
-                <div class="flex justify-between text-sm text-gray-400 px-2">
-                    <span>เดิมพันขั้นต่ำ: 10</span>
-                    <span>สูงสุด: 5,000</span>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="setBet(100)" class="flex-1 bg-slate-700 py-2 rounded-lg text-white hover:bg-slate-600">100</button>
-                    <button onclick="setBet(500)" class="flex-1 bg-slate-700 py-2 rounded-lg text-white hover:bg-slate-600">500</button>
-                    <button onclick="setBet(1000)" class="flex-1 bg-slate-700 py-2 rounded-lg text-white hover:bg-slate-600">1K</button>
-                </div>
-                <div class="flex gap-2">
-                    <input type="number" id="bet-amount" value="100" class="flex-1 bg-slate-800 text-center text-xl font-bold text-yellow-400 rounded-lg border border-slate-600 focus:border-yellow-500 outline-none">
-                    <button onclick="startGame()" class="flex-1 bg-gradient-to-r from-green-500 to-green-700 text-white font-bold text-xl rounded-lg shadow-lg hover:brightness-110 active:scale-95 transition">แจกไพ่</button>
-                </div>
+        <div class="p-4 text-center text-gray-500 text-xs">
+            <button onclick="auth.signOut()" class="text-red-500">ออกจากระบบ</button>
+        </div>
+
+    </div>
+
+    <div id="wallet-modal" class="hidden fixed inset-0 z-50 bg-black/90 flex items-end sm:items-center justify-center">
+        <div class="bg-gray-900 w-full max-w-md h-[80vh] sm:h-auto sm:rounded-2xl rounded-t-3xl p-6 relative flex flex-col">
+            <button onclick="document.getElementById('wallet-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button>
+            
+            <h2 class="text-xl font-bold mb-6 flex gap-2">💳 กระเป๋าเงิน <span class="text-yellow-500">฿<span id="w-bal">0</span></span></h2>
+
+            <div class="flex bg-gray-800 p-1 rounded-lg mb-4">
+                <button onclick="setWalletTab('dep')" id="tab-dep" class="flex-1 py-2 rounded text-sm bg-gray-700 text-white">ฝากเงิน</button>
+                <button onclick="setWalletTab('wit')" id="tab-wit" class="flex-1 py-2 rounded text-sm text-gray-400">ถอนเงิน</button>
+                <button onclick="setWalletTab('his')" id="tab-his" class="flex-1 py-2 rounded text-sm text-gray-400">ประวัติ</button>
             </div>
 
-            <div id="action-controls" class="hidden grid grid-cols-2 gap-3">
-                <button onclick="hit()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl text-lg shadow-lg active:scale-95">⏬ จั่วเพิ่ม</button>
-                <button onclick="stay()" class="bg-red-600 hover:bg-red-500 text-white font-bold py-4 rounded-xl text-lg shadow-lg active:scale-95">🛑 พอ (อยู่)</button>
-            </div>
-
-            <div class="mt-4 flex justify-between items-center text-xs text-gray-500 border-t border-gray-700 pt-3">
-                <button onclick="openModal('deposit')" class="hover:text-white">💰 ฝากเงิน</button>
-                <button onclick="openModal('withdraw')" class="hover:text-white">💸 ถอนเงิน</button>
-                <a href="#" id="contact-link" target="_blank" class="hover:text-white">💬 ติดต่อ Admin</a>
-                <button onclick="auth.signOut()" class="text-red-500 hover:text-red-400">Logout</button>
-            </div>
+            <div id="wallet-content" class="flex-1 overflow-y-auto">
+                </div>
         </div>
     </div>
 
-    <div id="modal-wrapper" class="hidden fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
-        <div class="bg-slate-800 w-full max-w-sm rounded-xl p-6 relative">
-            <button onclick="document.getElementById('modal-wrapper').classList.add('hidden')" class="absolute top-2 right-4 text-gray-400 text-2xl">&times;</button>
-            <h3 id="modal-title" class="text-xl font-bold text-yellow-400 mb-4">ทำรายการ</h3>
-            <div id="modal-content"></div>
+    <div id="result-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur">
+        <div class="bg-white text-black p-8 rounded-3xl text-center shadow-2xl animate-bounce">
+            <h2 class="text-4xl font-black text-purple-600 mb-2">YAY!</h2>
+            <p class="text-gray-500">คุณได้รับ</p>
+            <div id="result-val" class="text-5xl font-bold my-4 text-yellow-500">1000</div>
+            <button onclick="closeResult()" class="bg-black text-white px-8 py-3 rounded-full font-bold">รับรางวัล</button>
         </div>
     </div>
 
@@ -148,7 +105,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
         const config = {
-            apiKey: "AIzaSyABuBrdprpiN32ZD4cSCiSslkYbRfnWGgE",
+            apiKey: "AIzaSyABuBrdprpiN32ZD4cSCiSslkYbRfnWGgE", // ใส่ KEY เดิมของคุณ
             authDomain: "namba-fe57a.firebaseapp.com",
             databaseURL: "https://namba-fe57a-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "namba-fe57a",
@@ -157,228 +114,246 @@
         firebase.initializeApp(config);
         const auth = firebase.auth();
         const db = firebase.database();
-        let user = null, userData = {}, deck = [], pHand = [], dHand = [];
+        
+        let user = null, userData = {}, currentWheel = null, wheels = {};
+        let isSpinning = false;
 
-        // --- AUTH ---
+        // --- AUTH & INIT ---
         auth.onAuthStateChanged(u => {
             if(u) {
                 user = u;
                 document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('game-ui').classList.remove('hidden');
-                document.getElementById('user-display').innerText = u.email.split('@')[0];
-                document.getElementById('uid-display').innerText = u.uid.slice(0,5);
+                document.getElementById('app-ui').classList.remove('hidden');
+                document.getElementById('u-email').innerText = u.email;
                 
                 db.ref(`users/${u.uid}`).on('value', s => {
-                    userData = s.val() || { balance: 0, lock_result: 'normal' };
-                    document.getElementById('balance-display').innerText = userData.balance.toLocaleString();
+                    userData = s.val() || {balance:0};
+                    document.querySelectorAll('#u-balance, #w-bal').forEach(e => e.innerText = userData.balance.toLocaleString());
                 });
-                
-                db.ref('system').on('value', s => {
-                    const sys = s.val() || {};
-                    if(sys.announcement) {
-                        document.getElementById('announce-bar').classList.remove('hidden');
-                        document.getElementById('announce-text').innerText = sys.announcement;
-                    }
-                    if(sys.contact_line) document.getElementById('contact-link').href = sys.contact_line;
-                });
+
+                loadWheels();
             } else {
                 document.getElementById('auth-screen').classList.remove('hidden');
-                document.getElementById('game-ui').classList.add('hidden');
             }
         });
 
-        const login = () => auth.signInWithEmailAndPassword(getVal('email'), getVal('password')).catch(e=>alert(e.message));
-        const register = () => auth.createUserWithEmailAndPassword(getVal('email'), getVal('password'))
-            .then(c => db.ref(`users/${c.user.uid}`).set({email: getVal('email'), balance: 0, lock_result: 'normal'}))
-            .catch(e=>alert(e.message));
-        const getVal = (id) => document.getElementById(id).value;
+        const login = () => auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).catch(alert);
+        const register = () => auth.createUserWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value)
+            .then(c => db.ref(`users/${c.user.uid}`).set({email: c.user.email, balance: 0})).catch(alert);
 
-        // --- GAME LOGIC ---
-        const suits = ['♠','♥','♣','♦'];
-        const values = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-        
-        function createDeck() {
-            deck = [];
-            for(let s of suits) for(let v of values) deck.push({s, v, w: getWeight(v)});
-            deck.sort(() => Math.random() - 0.5);
-        }
-        function getWeight(v) { return v=='A'?1 : ['10','J','Q','K'].includes(v)?0 : parseInt(v); }
-        function getScore(hand) { return hand.reduce((a,b)=>a+b.w,0) % 10; }
-
-        function setBet(amt) { document.getElementById('bet-amount').value = amt; }
-
-        function startGame() {
-            const bet = parseInt(getVal('bet-amount'));
-            if(userData.balance < bet) return alert('ยอดเงินไม่พอ');
-            
-            // Deduct & Rigging Check
-            db.ref(`users/${user.uid}`).update({ balance: userData.balance - bet });
-            createDeck();
-            
-            // Rigging Logic
-            if(userData.lock_result === 'win') {
-                pHand = [{s:'♠',v:'9',w:9}, {s:'♦',v:'K',w:0}]; // Pok 9
-                dHand = [{s:'♣',v:'2',w:2}, {s:'♥',v:'3',w:3}];
-            } else if(userData.lock_result === 'lose') {
-                pHand = [{s:'♠',v:'2',w:2}, {s:'♦',v:'2',w:2}]; // 4
-                dHand = [{s:'♣',v:'9',w:9}, {s:'♥',v:'K',w:0}]; // Pok 9
-            } else {
-                pHand = [deck.pop(), deck.pop()];
-                dHand = [deck.pop(), deck.pop()];
-            }
-
-            // UI Reset
-            document.getElementById('bet-controls').classList.add('hidden');
-            document.getElementById('player-status').style.transform = "scale(0)";
-            renderHand('player-hand', pHand, false); // Face down first
-            renderHand('dealer-hand', dHand, false);
-
-            // Animate Deal
-            setTimeout(() => flipCard('player-hand', 0, pHand[0]), 500);
-            setTimeout(() => flipCard('player-hand', 1, pHand[1]), 1000);
-            setTimeout(() => {
-                const s = getScore(pHand);
-                const badge = document.getElementById('player-status');
-                badge.innerText = `ป๊อก ${s}`;
-                badge.style.transform = "scale(1)";
-                if(s >= 8) {
-                    badge.classList.add('pok-glow');
-                    setTimeout(() => checkWinner(true), 1000); // Pok! End game immediately
-                } else {
-                    document.getElementById('action-controls').classList.remove('hidden');
-                }
-            }, 1500);
-        }
-
-        function hit() {
-            pHand.push(deck.pop());
-            renderHand('player-hand', pHand, true); // Render all face up
-            document.getElementById('player-status').innerText = `${getScore(pHand)} แต้ม`;
-            stay();
-        }
-
-        function stay() {
-            document.getElementById('action-controls').classList.add('hidden');
-            // Dealer Turn (Bot Logic)
-            flipCard('dealer-hand', 0, dHand[0]);
-            setTimeout(() => flipCard('dealer-hand', 1, dHand[1]), 500);
-            
-            setTimeout(() => {
-                let dScore = getScore(dHand);
-                if(dScore < 4) {
-                    dHand.push(deck.pop());
-                    renderHand('dealer-hand', dHand, true);
-                }
-                checkWinner(false);
-            }, 1500);
-        }
-
-        function checkWinner(isPok) {
-            // Render Dealer Full
-            renderHand('dealer-hand', dHand, true);
-            const pScore = getScore(pHand);
-            const dScore = getScore(dHand);
-            const bet = parseInt(getVal('bet-amount'));
-            
-            let winAmt = 0;
-            let title = "เสมอ";
-            let desc = "คืนเงินเดิมพัน";
-            let color = "text-gray-500";
-
-            if (pScore > dScore) {
-                winAmt = bet * 2;
-                title = "YOU WIN!";
-                desc = `+${bet} ฿`;
-                color = "from-yellow-400 to-green-500";
-            } else if (pScore < dScore) {
-                title = "YOU LOSE";
-                desc = `-${bet} ฿`;
-                color = "from-gray-500 to-red-600";
-            } else {
-                winAmt = bet;
-            }
-
-            if(winAmt > 0) db.ref(`users/${user.uid}`).update({ balance: userData.balance + winAmt });
-
-            document.getElementById('result-title').innerText = title;
-            document.getElementById('result-title').className = `text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r ${color} mb-2`;
-            document.getElementById('result-desc').innerText = desc;
-            document.getElementById('result-modal').classList.remove('hidden');
-        }
-
-        function resetGame() {
-            document.getElementById('result-modal').classList.add('hidden');
-            document.getElementById('bet-controls').classList.remove('hidden');
-            document.getElementById('dealer-hand').innerHTML = `<div class="card-container"><div class="card-face card-back"></div></div><div class="card-container"><div class="card-face card-back"></div></div>`;
-            document.getElementById('player-hand').innerHTML = `<div class="w-20 h-28 border-2 border-dashed border-white/30 rounded-lg bg-white/5 flex items-center justify-center text-white/20">รอไพ่</div><div class="w-20 h-28 border-2 border-dashed border-white/30 rounded-lg bg-white/5 flex items-center justify-center text-white/20">รอไพ่</div>`;
-            document.getElementById('player-status').classList.remove('pok-glow');
-        }
-
-        // --- RENDER HELPERS ---
-        function renderHand(elId, hand, faceUp) {
-            const container = document.getElementById(elId);
-            container.innerHTML = hand.map((c, i) => `
-                <div class="card-container ${faceUp ? 'flipped' : ''}" id="${elId}-c${i}">
-                    <div class="card-face card-back"></div>
-                    <div class="card-face card-front ${['♥','♦'].includes(c.s)?'suit-red':'suit-black'}">
-                        <div class="text-2xl font-bold">${c.v}</div>
-                        <div class="text-4xl">${c.s}</div>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Add entrance animation
-            Array.from(container.children).forEach((c, i) => {
-                c.style.animation = `dealCard 0.5s ease-out ${i*0.1}s backwards`;
+        // --- WHEEL SYSTEM ---
+        function loadWheels() {
+            db.ref('wheels').on('value', s => {
+                const list = document.getElementById('wheel-list');
+                list.innerHTML = '';
+                wheels = s.val() || {};
+                
+                Object.keys(wheels).forEach((key, idx) => {
+                    const w = wheels[key];
+                    const activeClass = (idx===0) ? 'border-purple-500 bg-purple-900/50' : 'border-white/10 bg-white/5';
+                    list.innerHTML += `
+                        <div onclick="selectWheel('${key}')" class="cursor-pointer border ${activeClass} hover:bg-white/10 p-3 rounded-xl min-w-[120px] flex flex-col justify-between transition group">
+                            <div class="text-sm font-bold text-white group-hover:text-purple-300">${w.name}</div>
+                            <div class="text-xs text-yellow-400 mt-1">฿${w.cost}</div>
+                        </div>
+                    `;
+                    if(idx===0 && !currentWheel) selectWheel(key);
+                });
             });
         }
 
-        function flipCard(elId, idx, cardData) {
-            const el = document.getElementById(`${elId}-c${idx}`);
-            if(el) {
-                // Update content just before flip if needed, but handled in render usually
-                el.classList.add('flipped');
-            }
+        function selectWheel(key) {
+            currentWheel = wheels[key];
+            currentWheel.id = key;
+            document.getElementById('wheel-name').innerText = currentWheel.name;
+            document.getElementById('wheel-cost').innerText = currentWheel.cost.toLocaleString();
+            document.getElementById('play-controls').classList.remove('hidden');
+            
+            // Draw Wheel
+            drawWheel();
+            
+            // Reset rotation
+            document.getElementById('canvas').style.transform = `rotate(0deg)`;
+            document.getElementById('canvas').style.transition = 'none';
         }
 
-        // --- FINANCE MODAL ---
-        function openModal(type) {
-            const w = document.getElementById('modal-wrapper');
-            const c = document.getElementById('modal-content');
-            w.classList.remove('hidden');
-            if(type === 'deposit') {
-                c.innerHTML = `
-                    <div class="bg-slate-900 p-3 rounded mb-3 text-sm text-gray-300">
-                        ธนาคาร: <span id="bank-info-modal" class="text-yellow-400">Loading...</span>
+        function drawWheel() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const segments = currentWheel.segments || [];
+            const len = segments.length;
+            const arc = (2 * Math.PI) / len;
+            const radius = 320; 
+
+            ctx.clearRect(0,0,640,640);
+            ctx.translate(320, 320);
+
+            segments.forEach((seg, i) => {
+                const angle = i * arc;
+                ctx.beginPath();
+                ctx.arc(0, 0, radius, angle, angle + arc);
+                ctx.lineTo(0, 0);
+                ctx.fillStyle = seg.color;
+                ctx.fill();
+
+                // Text
+                ctx.save();
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 40px Kanit";
+                ctx.fillText(seg.label, radius - 40, 15);
+                ctx.restore();
+            });
+            ctx.translate(-320, -320); // Reset
+        }
+
+        function spin() {
+            if(isSpinning) return;
+            if(userData.balance < currentWheel.cost) return alert("เงินไม่พอเติมด่วน!");
+
+            isSpinning = true;
+            document.getElementById('spin-btn').disabled = true;
+            document.getElementById('spin-btn').classList.add('opacity-50');
+
+            // 1. Client-Side Calculation based on weights (Simulate Server RNG)
+            // Logic: Sum total weights -> Random -> Find segment
+            const segments = currentWheel.segments || [];
+            let totalWeight = segments.reduce((sum, seg) => sum + (parseInt(seg.weight)||1), 0);
+            let random = Math.floor(Math.random() * totalWeight);
+            let resultIndex = -1;
+            
+            for(let i=0; i<segments.length; i++) {
+                random -= (parseInt(segments[i].weight)||1);
+                if(random < 0) {
+                    resultIndex = i;
+                    break;
+                }
+            }
+
+            // 2. Calculate Angle
+            const segmentArc = 360 / segments.length;
+            // Target angle needs to land on resultIndex. 
+            // Canvas 0 deg is at 3 o'clock. We need to account for rotation.
+            // Let's rely on adding extra spins + specific stop point.
+            // If result is index 0, we want index 0 to be at top (270deg) or handle pointer pos.
+            // Pointer is at TOP. 
+            
+            // Math: To get Index I to top:
+            // Rotate = - (Index * Arc) - (Arc/2) - 90deg (adjustment)
+            const stopAngle = 360 * 5 + (360 - (resultIndex * segmentArc) - (segmentArc/2)); // 5 spins min
+            
+            // 3. Deduct Balance
+            db.ref(`users/${user.uid}/balance`).set(userData.balance - currentWheel.cost);
+
+            // 4. Animate
+            const canvas = document.getElementById('canvas');
+            canvas.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            canvas.style.transform = `rotate(${stopAngle}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                document.getElementById('spin-btn').disabled = false;
+                document.getElementById('spin-btn').classList.remove('opacity-50');
+                
+                const wonItem = segments[resultIndex];
+                let reward = 0;
+                
+                if(wonItem.type === 'cash') reward = parseInt(wonItem.value);
+                // if type multiplier logic can be added here
+                
+                if(reward > 0) {
+                    db.ref(`users/${user.uid}/balance`).set(userData.balance + reward); // Add win (already deducted cost)
+                    // Or logic: balance - cost + reward. (Done separately above for safety)
+                }
+
+                document.getElementById('result-val').innerText = (reward > 0) ? `฿${reward}` : 'เกลือ!';
+                document.getElementById('result-modal').classList.remove('hidden');
+
+            }, 5000);
+        }
+
+        function closeResult() {
+            document.getElementById('result-modal').classList.add('hidden');
+            document.getElementById('canvas').style.transition = 'none';
+            document.getElementById('canvas').style.transform = `rotate(${0}deg)`; // Reset visual if needed or keep it
+        }
+
+        // --- WALLET UI ---
+        function openWallet() { 
+            document.getElementById('wallet-modal').classList.remove('hidden');
+            setWalletTab('dep');
+        }
+        function setWalletTab(t) {
+            ['dep','wit','his'].forEach(x => {
+                document.getElementById(`tab-${x}`).className = `flex-1 py-2 rounded text-sm ${x===t ? 'bg-gray-700 text-white' : 'text-gray-400'}`;
+            });
+            const content = document.getElementById('wallet-content');
+            
+            if(t === 'dep') {
+                db.ref('system/bank_info').once('value', s => {
+                    content.innerHTML = `
+                        <div class="space-y-4 pt-4">
+                            <div class="bg-blue-900/30 p-4 rounded border border-blue-500/30">
+                                <p class="text-xs text-blue-300">ธนาคาร</p>
+                                <p class="text-white whitespace-pre-line">${s.val() || 'Loading...'}</p>
+                            </div>
+                            <input type="number" id="tx-amt" placeholder="จำนวนเงิน" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
+                            <input type="text" id="tx-info" placeholder="วันเวลา / สลิป" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
+                            <button onclick="sendTx('deposit')" class="w-full bg-green-600 py-3 rounded font-bold hover:bg-green-500">แจ้งฝากเงิน</button>
+                        </div>
+                    `;
+                });
+            } else if (t === 'wit') {
+                content.innerHTML = `
+                    <div class="space-y-4 pt-4">
+                        <input type="number" id="tx-amt" placeholder="จำนวนเงินถอน" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
+                        <input type="text" id="tx-info" placeholder="เลขบัญชี - ชื่อ - ธนาคาร" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
+                        <button onclick="sendTx('withdraw')" class="w-full bg-red-600 py-3 rounded font-bold hover:bg-red-500">แจ้งถอนเงิน</button>
                     </div>
-                    <input type="number" id="tx-amt" placeholder="จำนวนเงิน" class="w-full p-2 mb-2 bg-slate-700 text-white rounded">
-                    <input type="text" id="tx-detail" placeholder="เวลาโอน (12:00)" class="w-full p-2 mb-2 bg-slate-700 text-white rounded">
-                    <button onclick="submitTx('deposit')" class="w-full bg-green-600 py-2 rounded text-white font-bold">แจ้งฝาก</button>
                 `;
-                db.ref('system/bank_info').once('value', s=> document.getElementById('bank-info-modal').innerText = s.val() || '-');
             } else {
-                c.innerHTML = `
-                    <input type="number" id="tx-amt" placeholder="จำนวนเงิน" class="w-full p-2 mb-2 bg-slate-700 text-white rounded">
-                    <input type="text" id="tx-detail" placeholder="เลขบัญชี - ธนาคาร" class="w-full p-2 mb-2 bg-slate-700 text-white rounded">
-                    <button onclick="submitTx('withdraw')" class="w-full bg-red-600 py-2 rounded text-white font-bold">แจ้งถอน</button>
-                `;
+                // History
+                content.innerHTML = '<div class="pt-4 space-y-2" id="his-list">Loading...</div>';
+                db.ref('transactions').orderByChild('uid').equalTo(user.uid).limitToLast(10).once('value', s => {
+                    const list = document.getElementById('his-list');
+                    list.innerHTML = '';
+                    if(!s.exists()) { list.innerHTML = '<p class="text-center text-gray-500">ไม่มีรายการ</p>'; return; }
+                    
+                    const arr = [];
+                    s.forEach(c => arr.push(c.val()));
+                    arr.reverse().forEach(t => {
+                        const color = t.type==='deposit' ? 'text-green-400' : 'text-red-400';
+                        const statusColor = t.status==='approved' ? 'text-green-500' : (t.status==='rejected'?'text-red-500':'text-yellow-500');
+                        list.innerHTML += `
+                            <div class="bg-gray-800 p-3 rounded flex justify-between items-center text-sm">
+                                <div>
+                                    <div class="font-bold ${color}">${t.type==='deposit'?'ฝาก':'ถอน'} ${t.amount}</div>
+                                    <div class="text-xs text-gray-500">${new Date(t.timestamp).toLocaleDateString()}</div>
+                                </div>
+                                <div class="${statusColor} font-bold uppercase text-xs">${t.status}</div>
+                            </div>
+                        `;
+                    });
+                });
             }
         }
 
-        function submitTx(type) {
+        function sendTx(type) {
             const amt = parseInt(document.getElementById('tx-amt').value);
-            const detail = document.getElementById('tx-detail').value;
-            if(!amt || !detail) return alert("กรอกข้อมูลให้ครบ");
-            if(type === 'withdraw' && amt > userData.balance) return alert("เงินไม่พอ");
+            const info = document.getElementById('tx-info').value;
+            if(!amt || !info) return alert("กรอกให้ครบ");
+            if(type==='withdraw' && amt > userData.balance) return alert("ยอดไม่พอ");
 
-            if(type === 'withdraw') db.ref(`users/${user.uid}`).update({balance: userData.balance - amt});
+            if(type==='withdraw') db.ref(`users/${user.uid}/balance`).set(userData.balance - amt);
 
             db.ref('transactions').push({
-                uid: user.uid, email: user.email, type, amount: amt, details: detail, status: 'pending', timestamp: Date.now()
+                uid: user.uid, email: user.email, amount: amt, details: info, type: type, status: 'pending', timestamp: Date.now()
             });
-            alert("ทำรายการสำเร็จ รอแอดมินอนุมัติ");
-            document.getElementById('modal-wrapper').classList.add('hidden');
+            alert("ทำรายการสำเร็จ");
+            setWalletTab('his');
         }
+
     </script>
 </body>
 </html>
