@@ -3,100 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lucky Wheel Online</title>
+    <title>SPIN SPON</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Kanit', sans-serif; background: #0f0c29; background: linear-gradient(to right, #24243e, #302b63, #0f0c29); color: white; overflow-x: hidden; }
-        .neon-text { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00de, 0 0 30px #ff00de; }
-        .wheel-container { position: relative; width: 320px; height: 320px; margin: 0 auto; filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); }
-        #canvas { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); transform: rotate(0deg); }
-        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 40px; height: 50px; background: #fbbf24; clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 10; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-        .modal { transition: opacity 0.3s ease-in-out; }
-        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        body { font-family: 'Kanit', sans-serif; background: #0a0a0a; color: #e5e5e5; }
+        .gold-grad { background: linear-gradient(135deg, #FFD700 0%, #FDB931 50%, #C08209 100%); }
+        .gold-text { background: linear-gradient(to bottom, #FFD700, #FDB931); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(30, 30, 30, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.1); }
+        .wheel-shadow { filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.3)); }
+        
+        /* Pointer */
+        .pointer {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid #ef4444; /* Red Arrow */
+            z-index: 20; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col overflow-x-hidden">
 
-    <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
-        <div class="w-full max-w-sm p-8 glass rounded-2xl text-center">
-            <h1 class="text-4xl font-bold mb-2 neon-text">SPIN WIN</h1>
-            <p class="text-gray-400 mb-6">หมุนลุ้นรวย ระบบอัจฉริยะ</p>
-            <input type="email" id="email" placeholder="Email" class="w-full p-3 mb-3 bg-white/10 rounded border border-white/20 text-white outline-none focus:border-pink-500">
-            <input type="password" id="password" placeholder="Password" class="w-full p-3 mb-6 bg-white/10 rounded border border-white/20 text-white outline-none focus:border-pink-500">
-            <button onclick="login()" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition">เข้าสู่ระบบ</button>
-            <button onclick="register()" class="mt-4 text-sm text-gray-400 hover:text-white">ยังไม่มีบัญชี? สมัครใหม่</button>
+    <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] bg-black">
+        <div class="w-full max-w-sm p-8 bg-neutral-900 rounded-2xl border border-yellow-600/30 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 gold-grad"></div>
+            <h1 class="text-4xl font-black text-center mb-2 gold-text tracking-widest">GOLDEN 888</h1>
+            <p class="text-center text-gray-500 mb-8 text-sm">ระบบอัตโนมัติ ฝาก-ถอน 3 วินาที</p>
+            
+            <div class="space-y-4">
+                <div class="relative">
+                    <i class="fas fa-user absolute left-4 top-3.5 text-yellow-600"></i>
+                    <input type="email" id="email" placeholder="อีเมล / เบอร์โทร" class="w-full pl-10 p-3 bg-black border border-gray-700 rounded-lg focus:border-yellow-500 outline-none text-white">
+                </div>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-3.5 text-yellow-600"></i>
+                    <input type="password" id="pass" placeholder="รหัสผ่าน" class="w-full pl-10 p-3 bg-black border border-gray-700 rounded-lg focus:border-yellow-500 outline-none text-white">
+                </div>
+                <button onclick="login()" class="w-full py-3 rounded-lg font-bold text-black gold-grad hover:brightness-110 transition shadow-lg mt-2">เข้าสู่ระบบ</button>
+                <div class="flex justify-between text-xs text-gray-400 mt-4">
+                    <span onclick="register()" class="cursor-pointer hover:text-yellow-500">สมัครสมาชิกใหม่</span>
+                    <span class="cursor-pointer hover:text-yellow-500">ลืมรหัสผ่าน?</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="app-ui" class="hidden flex-1 flex flex-col max-w-md mx-auto w-full min-h-screen bg-black/40 shadow-2xl relative">
+    <div id="app-screen" class="hidden flex-1 flex flex-col max-w-md mx-auto w-full bg-neutral-900 shadow-2xl min-h-screen relative pb-20">
         
-        <div class="p-4 flex justify-between items-center glass m-2 rounded-xl">
+        <div class="sticky top-0 z-30 bg-neutral-900/90 backdrop-blur border-b border-white/10 p-4 flex justify-between items-center shadow-lg">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-xl">🦄</div>
+                <div class="w-10 h-10 rounded-full border-2 border-yellow-500 overflow-hidden bg-black flex items-center justify-center">
+                    <i class="fas fa-user-astronaut text-yellow-500 text-lg"></i>
+                </div>
                 <div>
-                    <div id="u-email" class="text-xs text-gray-300">Loading...</div>
-                    <div class="font-bold text-yellow-400">฿ <span id="u-balance" class="text-xl">0</span></div>
+                    <div id="user-display" class="text-xs text-gray-400">Guest</div>
+                    <div class="text-lg font-bold text-white flex items-center gap-1">
+                        <span class="text-yellow-500">฿</span> <span id="balance-display">0.00</span>
+                    </div>
                 </div>
             </div>
-            <button onclick="openWallet()" class="bg-white/20 px-3 py-1 rounded-lg text-xs hover:bg-white/30">กระเป๋าตังค์</button>
+            <button onclick="openModal('deposit')" class="gold-grad text-black px-4 py-1.5 rounded-full text-xs font-bold shadow-lg hover:scale-105 transition">
+                <i class="fas fa-plus-circle"></i> เติมเครดิต
+            </button>
         </div>
 
-        <div class="px-4 mt-2">
-            <h3 class="text-gray-400 text-xs mb-2 uppercase tracking-widest">เลือกเกมที่คุณต้องการเล่น</h3>
-            <div id="wheel-list" class="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
-                <div class="animate-pulse bg-white/10 w-32 h-20 rounded-xl flex-shrink-0"></div>
+        <div class="bg-black py-1 overflow-hidden border-b border-white/5 relative">
+            <div class="whitespace-nowrap animate-marquee text-xs text-yellow-400/80 px-4" id="marquee-text">
+                📢 ยินดีต้อนรับสู่ GOLDEN 888 ระบบวงล้อเสี่ยงโชคที่แฟร์ที่สุด! แตกง่าย จ่ายจริง 100%
             </div>
         </div>
 
-        <div class="flex-1 flex flex-col items-center justify-center relative my-4">
-            <h2 id="wheel-name" class="text-2xl font-bold mb-4 neon-text text-center">เลือกเกมด้านบน</h2>
-            
-            <div class="wheel-container">
+        <div class="p-4">
+            <h3 class="text-white text-sm font-bold mb-3 border-l-4 border-yellow-500 pl-2">เลือกเกมที่คุณต้องการ</h3>
+            <div id="wheel-list" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                <div class="w-32 h-20 bg-gray-800 rounded animate-pulse"></div>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col items-center relative mt-2 px-4">
+            <div class="text-center mb-4">
+                <h2 id="w-title" class="text-2xl font-bold gold-text">กรุณาเลือกเกม</h2>
+                <p class="text-xs text-gray-400">ค่าเล่น: <span id="w-cost" class="text-yellow-500 font-bold">0</span> บาท</p>
+            </div>
+
+            <div class="relative w-[320px] h-[320px] wheel-shadow">
                 <div class="pointer"></div>
-                <canvas id="canvas" width="640" height="640"></canvas>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center z-20 border-4 border-purple-500">
-                    <span class="text-purple-900 font-bold text-xs">SPIN</span>
+                <canvas id="canvas" width="640" height="640" class="w-full h-full transition-transform duration-[5000ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]"></canvas>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-br from-black to-gray-800 rounded-full border-4 border-yellow-500 flex items-center justify-center z-10 shadow-xl">
+                    <i class="fas fa-crown text-yellow-500 text-xl"></i>
                 </div>
             </div>
 
-            <div id="play-controls" class="mt-8 text-center hidden">
-                <p class="text-gray-300 text-sm mb-2">ค่าเล่น: <span id="wheel-cost" class="text-yellow-400 font-bold">0</span> บาท</p>
-                <button onclick="spin()" id="spin-btn" class="bg-gradient-to-b from-yellow-400 to-yellow-600 text-black font-bold text-xl px-12 py-4 rounded-full shadow-lg shadow-yellow-500/50 hover:scale-105 transition transform active:scale-95">
-                    หมุนเลย!
-                </button>
-            </div>
+            <button id="spin-btn" onclick="spin()" disabled class="mt-8 bg-gray-800 text-gray-500 w-full max-w-[200px] py-3 rounded-full font-bold text-lg shadow-lg transition transform active:scale-95 border border-white/10">
+                เริ่มเกม
+            </button>
         </div>
 
-        <div class="p-4 text-center text-gray-500 text-xs">
-            <button onclick="auth.signOut()" class="text-red-500">ออกจากระบบ</button>
-        </div>
-
-    </div>
-
-    <div id="wallet-modal" class="hidden fixed inset-0 z-50 bg-black/90 flex items-end sm:items-center justify-center">
-        <div class="bg-gray-900 w-full max-w-md h-[80vh] sm:h-auto sm:rounded-2xl rounded-t-3xl p-6 relative flex flex-col">
-            <button onclick="document.getElementById('wallet-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button>
-            
-            <h2 class="text-xl font-bold mb-6 flex gap-2">💳 กระเป๋าเงิน <span class="text-yellow-500">฿<span id="w-bal">0</span></span></h2>
-
-            <div class="flex bg-gray-800 p-1 rounded-lg mb-4">
-                <button onclick="setWalletTab('dep')" id="tab-dep" class="flex-1 py-2 rounded text-sm bg-gray-700 text-white">ฝากเงิน</button>
-                <button onclick="setWalletTab('wit')" id="tab-wit" class="flex-1 py-2 rounded text-sm text-gray-400">ถอนเงิน</button>
-                <button onclick="setWalletTab('his')" id="tab-his" class="flex-1 py-2 rounded text-sm text-gray-400">ประวัติ</button>
-            </div>
-
-            <div id="wallet-content" class="flex-1 overflow-y-auto">
-                </div>
+        <div class="fixed bottom-0 w-full max-w-md bg-black border-t border-white/10 flex justify-around p-2 pb-4 text-[10px] text-gray-500 z-40">
+            <button onclick="setTab('home')" class="flex flex-col items-center gap-1 text-yellow-500 w-16">
+                <i class="fas fa-home text-xl"></i> หน้าแรก
+            </button>
+            <button onclick="openModal('deposit')" class="flex flex-col items-center gap-1 hover:text-white w-16">
+                <i class="fas fa-wallet text-xl"></i> ฝากเงิน
+            </button>
+            <button onclick="openModal('withdraw')" class="flex flex-col items-center gap-1 hover:text-white w-16">
+                <i class="fas fa-hand-holding-usd text-xl"></i> ถอนเงิน
+            </button>
+            <button onclick="openModal('history')" class="flex flex-col items-center gap-1 hover:text-white w-16">
+                <i class="fas fa-history text-xl"></i> ประวัติ
+            </button>
+            <button onclick="logout()" class="flex flex-col items-center gap-1 hover:text-white w-16">
+                <i class="fas fa-sign-out-alt text-xl"></i> ออก
+            </button>
         </div>
     </div>
 
-    <div id="result-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur">
-        <div class="bg-white text-black p-8 rounded-3xl text-center shadow-2xl animate-bounce">
-            <h2 class="text-4xl font-black text-purple-600 mb-2">YAY!</h2>
-            <p class="text-gray-500">คุณได้รับ</p>
-            <div id="result-val" class="text-5xl font-bold my-4 text-yellow-500">1000</div>
-            <button onclick="closeResult()" class="bg-black text-white px-8 py-3 rounded-full font-bold">รับรางวัล</button>
+    <div id="modal" class="hidden fixed inset-0 z-50 bg-black/90 flex items-end sm:items-center justify-center p-4">
+        <div class="bg-neutral-800 w-full max-w-sm rounded-t-2xl sm:rounded-2xl border border-white/10 flex flex-col max-h-[85vh]">
+            <div class="p-4 border-b border-white/10 flex justify-between items-center bg-black/50 rounded-t-2xl">
+                <h3 id="modal-title" class="font-bold text-white text-lg">หัวข้อ</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="modal-content" class="p-4 overflow-y-auto custom-scrollbar"></div>
+        </div>
+    </div>
+
+    <div id="win-popup" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm">
+        <div class="text-center animate-bounce">
+            <h1 class="text-6xl mb-4">🎉</h1>
+            <h2 class="text-4xl font-black gold-text mb-2">YOU WIN!</h2>
+            <p class="text-white text-xl">ยินดีด้วยคุณได้รับ</p>
+            <div id="win-amount" class="text-5xl font-bold text-yellow-400 my-4 drop-shadow-[0_0_10px_rgba(255,215,0,0.8)]">1,000</div>
+            <p class="text-gray-400 text-sm mb-6">บาท</p>
+            <button onclick="closeWin()" class="bg-white text-black px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition">รับรางวัล</button>
         </div>
     </div>
 
@@ -104,77 +146,97 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        const config = {
-            apiKey: "AIzaSyABuBrdprpiN32ZD4cSCiSslkYbRfnWGgE", // ใส่ KEY เดิมของคุณ
+        // --- 1. CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyABuBrdprpiN32ZD4cSCiSslkYbRfnWGgE",
             authDomain: "namba-fe57a.firebaseapp.com",
             databaseURL: "https://namba-fe57a-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "namba-fe57a",
             appId: "1:340416568750:web:bb0a58ee618978bc107c3f"
         };
-        firebase.initializeApp(config);
+        firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.database();
         
-        let user = null, userData = {}, currentWheel = null, wheels = {};
-        let isSpinning = false;
+        let user = null, userData = {}, currentWheel = null, isSpinning = false;
+        let wheels = {};
 
-        // --- AUTH & INIT ---
+        // --- 2. AUTHENTICATION ---
         auth.onAuthStateChanged(u => {
             if(u) {
                 user = u;
                 document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('app-ui').classList.remove('hidden');
-                document.getElementById('u-email').innerText = u.email;
+                document.getElementById('app-screen').classList.remove('hidden');
+                document.getElementById('user-display').innerText = u.email;
                 
+                // Realtime Balance
                 db.ref(`users/${u.uid}`).on('value', s => {
-                    userData = s.val() || {balance:0};
-                    document.querySelectorAll('#u-balance, #w-bal').forEach(e => e.innerText = userData.balance.toLocaleString());
+                    userData = s.val() || { balance: 0 };
+                    document.getElementById('balance-display').innerText = userData.balance.toLocaleString('en-US', {minimumFractionDigits: 2});
                 });
-
+                
+                // Load System Data
                 loadWheels();
+                loadSystem();
             } else {
                 document.getElementById('auth-screen').classList.remove('hidden');
+                document.getElementById('app-screen').classList.add('hidden');
             }
         });
 
-        const login = () => auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).catch(alert);
-        const register = () => auth.createUserWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value)
-            .then(c => db.ref(`users/${c.user.uid}`).set({email: c.user.email, balance: 0})).catch(alert);
+        const login = () => auth.signInWithEmailAndPassword(getVal('email'), getVal('pass')).catch(e=>alert(e.message));
+        const register = () => auth.createUserWithEmailAndPassword(getVal('email'), getVal('pass'))
+            .then(c => db.ref(`users/${c.user.uid}`).set({ email: c.user.email, balance: 0, created: Date.now() }))
+            .catch(e=>alert(e.message));
+        const logout = () => auth.signOut();
+        const getVal = (id) => document.getElementById(id).value;
 
-        // --- WHEEL SYSTEM ---
+        // --- 3. SYSTEM & WHEEL ---
+        function loadSystem() {
+            db.ref('system/announcement').on('value', s => {
+                if(s.val()) document.getElementById('marquee-text').innerHTML = `📢 ${s.val()}`;
+            });
+        }
+
         function loadWheels() {
             db.ref('wheels').on('value', s => {
+                wheels = s.val() || {};
                 const list = document.getElementById('wheel-list');
                 list.innerHTML = '';
-                wheels = s.val() || {};
                 
-                Object.keys(wheels).forEach((key, idx) => {
+                let firstKey = null;
+                Object.keys(wheels).forEach((key, i) => {
+                    if(i===0) firstKey = key;
                     const w = wheels[key];
-                    const activeClass = (idx===0) ? 'border-purple-500 bg-purple-900/50' : 'border-white/10 bg-white/5';
                     list.innerHTML += `
-                        <div onclick="selectWheel('${key}')" class="cursor-pointer border ${activeClass} hover:bg-white/10 p-3 rounded-xl min-w-[120px] flex flex-col justify-between transition group">
-                            <div class="text-sm font-bold text-white group-hover:text-purple-300">${w.name}</div>
-                            <div class="text-xs text-yellow-400 mt-1">฿${w.cost}</div>
+                        <div onclick="selectWheel('${key}')" class="flex-shrink-0 w-32 bg-neutral-800 p-2 rounded-lg border border-white/10 hover:border-yellow-500 cursor-pointer transition relative overflow-hidden group">
+                            <div class="text-xs text-gray-400">เกม</div>
+                            <div class="font-bold text-white truncate text-sm group-hover:text-yellow-400">${w.name}</div>
+                            <div class="mt-1 text-xs text-yellow-500 font-bold">฿${w.cost}</div>
+                            <div class="absolute bottom-0 right-0 opacity-10 text-4xl text-white"><i class="fas fa-dharmachakra"></i></div>
                         </div>
                     `;
-                    if(idx===0 && !currentWheel) selectWheel(key);
                 });
+                if(firstKey && !currentWheel) selectWheel(firstKey);
             });
         }
 
         function selectWheel(key) {
+            if(isSpinning) return;
             currentWheel = wheels[key];
             currentWheel.id = key;
-            document.getElementById('wheel-name').innerText = currentWheel.name;
-            document.getElementById('wheel-cost').innerText = currentWheel.cost.toLocaleString();
-            document.getElementById('play-controls').classList.remove('hidden');
             
-            // Draw Wheel
+            document.getElementById('w-title').innerText = currentWheel.name;
+            document.getElementById('w-cost').innerText = currentWheel.cost;
+            
+            // Enable Button
+            const btn = document.getElementById('spin-btn');
+            btn.disabled = false;
+            btn.innerText = "เริ่มเกม";
+            btn.className = "mt-8 w-full max-w-[200px] py-3 rounded-full font-bold text-lg shadow-lg transition transform active:scale-95 gold-grad text-black hover:brightness-110";
+
             drawWheel();
-            
-            // Reset rotation
-            document.getElementById('canvas').style.transform = `rotate(0deg)`;
-            document.getElementById('canvas').style.transition = 'none';
+            resetRotation();
         }
 
         function drawWheel() {
@@ -187,14 +249,17 @@
 
             ctx.clearRect(0,0,640,640);
             ctx.translate(320, 320);
+            // Canvas default 0 deg is 3 o'clock.
+            // We draw normally.
 
             segments.forEach((seg, i) => {
                 const angle = i * arc;
                 ctx.beginPath();
+                ctx.moveTo(0, 0);
                 ctx.arc(0, 0, radius, angle, angle + arc);
-                ctx.lineTo(0, 0);
                 ctx.fillStyle = seg.color;
                 ctx.fill();
+                ctx.stroke();
 
                 // Text
                 ctx.save();
@@ -202,136 +267,155 @@
                 ctx.textAlign = "right";
                 ctx.fillStyle = "#fff";
                 ctx.font = "bold 40px Kanit";
+                ctx.shadowColor="rgba(0,0,0,0.5)";
+                ctx.shadowBlur=4;
                 ctx.fillText(seg.label, radius - 40, 15);
                 ctx.restore();
             });
-            ctx.translate(-320, -320); // Reset
+            ctx.translate(-320, -320);
         }
 
+        function resetRotation() {
+            const canvas = document.getElementById('canvas');
+            canvas.style.transition = 'none';
+            canvas.style.transform = `rotate(0deg)`;
+        }
+
+        // --- 4. GAME LOGIC (FIXED MATH) ---
         function spin() {
             if(isSpinning) return;
-            if(userData.balance < currentWheel.cost) return alert("เงินไม่พอเติมด่วน!");
+            if(userData.balance < currentWheel.cost) return alert('ยอดเงินไม่เพียงพอ กรุณาเติมเครดิต');
 
             isSpinning = true;
             document.getElementById('spin-btn').disabled = true;
-            document.getElementById('spin-btn').classList.add('opacity-50');
+            document.getElementById('spin-btn').classList.add('grayscale');
 
-            // 1. Client-Side Calculation based on weights (Simulate Server RNG)
-            // Logic: Sum total weights -> Random -> Find segment
-            const segments = currentWheel.segments || [];
-            let totalWeight = segments.reduce((sum, seg) => sum + (parseInt(seg.weight)||1), 0);
+            // 4.1 Determine Result based on Weight
+            const segments = currentWheel.segments;
+            const totalWeight = segments.reduce((sum, s) => sum + (parseInt(s.weight)||1), 0);
             let random = Math.floor(Math.random() * totalWeight);
-            let resultIndex = -1;
-            
+            let resultIndex = 0;
             for(let i=0; i<segments.length; i++) {
                 random -= (parseInt(segments[i].weight)||1);
-                if(random < 0) {
-                    resultIndex = i;
-                    break;
-                }
+                if(random < 0) { resultIndex = i; break; }
             }
 
-            // 2. Calculate Angle
-            const segmentArc = 360 / segments.length;
-            // Target angle needs to land on resultIndex. 
-            // Canvas 0 deg is at 3 o'clock. We need to account for rotation.
-            // Let's rely on adding extra spins + specific stop point.
-            // If result is index 0, we want index 0 to be at top (270deg) or handle pointer pos.
-            // Pointer is at TOP. 
-            
-            // Math: To get Index I to top:
-            // Rotate = - (Index * Arc) - (Arc/2) - 90deg (adjustment)
-            const stopAngle = 360 * 5 + (360 - (resultIndex * segmentArc) - (segmentArc/2)); // 5 spins min
-            
-            // 3. Deduct Balance
+            // 4.2 Deduct Balance
             db.ref(`users/${user.uid}/balance`).set(userData.balance - currentWheel.cost);
 
-            // 4. Animate
-            const canvas = document.getElementById('canvas');
-            canvas.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-            canvas.style.transform = `rotate(${stopAngle}deg)`;
+            // 4.3 Calculate Rotation (THE FIX)
+            // Goal: Center of segment[resultIndex] must be at TOP (270 deg / -90 deg relative to 3 o'clock)
+            // Arc per segment = 360 / N
+            // Angle of segment start = Index * Arc
+            // Center of segment = (Index * Arc) + (Arc / 2)
+            // To bring this Center to Top (270 deg):
+            // Rotation = 270 - CenterOfSegment
+            // Add full spins (360 * 5)
+            
+            const arcDeg = 360 / segments.length;
+            const segmentCenter = (resultIndex * arcDeg) + (arcDeg / 2);
+            let targetRotate = 270 - segmentCenter; 
+            
+            // Adjust to be positive spin
+            const spins = 360 * 8; // 8 rounds
+            const finalRotate = spins + targetRotate;
 
+            // 4.4 Animate
+            const canvas = document.getElementById('canvas');
+            canvas.style.transition = 'transform 5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            canvas.style.transform = `rotate(${finalRotate}deg)`;
+
+            // 4.5 Process Result
             setTimeout(() => {
                 isSpinning = false;
-                document.getElementById('spin-btn').disabled = false;
-                document.getElementById('spin-btn').classList.remove('opacity-50');
+                const won = segments[resultIndex];
+                let winAmount = 0;
                 
-                const wonItem = segments[resultIndex];
-                let reward = 0;
+                if(won.type === 'cash') winAmount = parseInt(won.value);
                 
-                if(wonItem.type === 'cash') reward = parseInt(wonItem.value);
-                // if type multiplier logic can be added here
-                
-                if(reward > 0) {
-                    db.ref(`users/${user.uid}/balance`).set(userData.balance + reward); // Add win (already deducted cost)
-                    // Or logic: balance - cost + reward. (Done separately above for safety)
+                // Add Win
+                if(winAmount > 0) {
+                    db.ref(`users/${user.uid}/balance`).transaction(b => (b||0) + winAmount);
+                    document.getElementById('win-amount').innerText = winAmount.toLocaleString();
+                    document.getElementById('win-popup').classList.remove('hidden');
+                } else {
+                    alert('เกลือจ้า! ลองใหม่อีกครั้ง');
+                    document.getElementById('spin-btn').disabled = false;
+                    document.getElementById('spin-btn').classList.remove('grayscale');
                 }
 
-                document.getElementById('result-val').innerText = (reward > 0) ? `฿${reward}` : 'เกลือ!';
-                document.getElementById('result-modal').classList.remove('hidden');
+                // Log History
+                db.ref('game_logs').push({
+                    uid: user.uid,
+                    wheel: currentWheel.name,
+                    bet: currentWheel.cost,
+                    result: won.label,
+                    win: winAmount,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
 
             }, 5000);
         }
 
-        function closeResult() {
-            document.getElementById('result-modal').classList.add('hidden');
-            document.getElementById('canvas').style.transition = 'none';
-            document.getElementById('canvas').style.transform = `rotate(${0}deg)`; // Reset visual if needed or keep it
+        function closeWin() {
+            document.getElementById('win-popup').classList.add('hidden');
+            document.getElementById('spin-btn').disabled = false;
+            document.getElementById('spin-btn').classList.remove('grayscale');
+            resetRotation();
         }
 
-        // --- WALLET UI ---
-        function openWallet() { 
-            document.getElementById('wallet-modal').classList.remove('hidden');
-            setWalletTab('dep');
-        }
-        function setWalletTab(t) {
-            ['dep','wit','his'].forEach(x => {
-                document.getElementById(`tab-${x}`).className = `flex-1 py-2 rounded text-sm ${x===t ? 'bg-gray-700 text-white' : 'text-gray-400'}`;
-            });
-            const content = document.getElementById('wallet-content');
+        // --- 5. WALLET & MODALS ---
+        function openModal(type) {
+            document.getElementById('modal').classList.remove('hidden');
+            const content = document.getElementById('modal-content');
+            const title = document.getElementById('modal-title');
             
-            if(t === 'dep') {
+            if(type === 'deposit') {
+                title.innerText = "ฝากเงิน (ระบบอัตโนมัติ)";
                 db.ref('system/bank_info').once('value', s => {
                     content.innerHTML = `
-                        <div class="space-y-4 pt-4">
-                            <div class="bg-blue-900/30 p-4 rounded border border-blue-500/30">
-                                <p class="text-xs text-blue-300">ธนาคาร</p>
-                                <p class="text-white whitespace-pre-line">${s.val() || 'Loading...'}</p>
-                            </div>
-                            <input type="number" id="tx-amt" placeholder="จำนวนเงิน" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
-                            <input type="text" id="tx-info" placeholder="วันเวลา / สลิป" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
-                            <button onclick="sendTx('deposit')" class="w-full bg-green-600 py-3 rounded font-bold hover:bg-green-500">แจ้งฝากเงิน</button>
+                        <div class="bg-neutral-900 p-4 rounded border border-yellow-500/30 mb-4">
+                            <p class="text-xs text-gray-400">เลขบัญชีธนาคาร</p>
+                            <p class="text-white text-sm whitespace-pre-wrap mt-1">${s.val() || 'โปรดติดต่อแอดมิน'}</p>
                         </div>
+                        <label class="text-xs text-gray-400">จำนวนเงิน</label>
+                        <input type="number" id="tx-amt" class="w-full bg-black border border-gray-700 p-3 rounded text-white mb-2" placeholder="เช่น 100">
+                        <label class="text-xs text-gray-400">วัน/เวลา ตามสลิป</label>
+                        <input type="text" id="tx-ref" class="w-full bg-black border border-gray-700 p-3 rounded text-white mb-4" placeholder="เช่น 12:30">
+                        <button onclick="sendTx('deposit')" class="w-full bg-green-600 hover:bg-green-500 py-3 rounded font-bold text-white">แจ้งฝากเงิน</button>
                     `;
                 });
-            } else if (t === 'wit') {
+            } else if(type === 'withdraw') {
+                title.innerText = "ถอนเงินเข้าบัญชี";
                 content.innerHTML = `
-                    <div class="space-y-4 pt-4">
-                        <input type="number" id="tx-amt" placeholder="จำนวนเงินถอน" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
-                        <input type="text" id="tx-info" placeholder="เลขบัญชี - ชื่อ - ธนาคาร" class="w-full p-3 bg-gray-800 rounded border border-gray-600 text-white">
-                        <button onclick="sendTx('withdraw')" class="w-full bg-red-600 py-3 rounded font-bold hover:bg-red-500">แจ้งถอนเงิน</button>
-                    </div>
+                    <label class="text-xs text-gray-400">จำนวนเงินที่ต้องการถอน</label>
+                    <input type="number" id="tx-amt" class="w-full bg-black border border-gray-700 p-3 rounded text-white mb-2">
+                    <label class="text-xs text-gray-400">ข้อมูลบัญชีรับเงิน (เลขบัญชี - ชื่อ - ธนาคาร)</label>
+                    <textarea id="tx-ref" class="w-full bg-black border border-gray-700 p-3 rounded text-white mb-4 h-24"></textarea>
+                    <button onclick="sendTx('withdraw')" class="w-full bg-red-600 hover:bg-red-500 py-3 rounded font-bold text-white">แจ้งถอนเงิน</button>
+                    <p class="text-xs text-gray-500 mt-2 text-center">ขั้นต่ำ 100 บาท</p>
                 `;
-            } else {
-                // History
-                content.innerHTML = '<div class="pt-4 space-y-2" id="his-list">Loading...</div>';
-                db.ref('transactions').orderByChild('uid').equalTo(user.uid).limitToLast(10).once('value', s => {
-                    const list = document.getElementById('his-list');
-                    list.innerHTML = '';
-                    if(!s.exists()) { list.innerHTML = '<p class="text-center text-gray-500">ไม่มีรายการ</p>'; return; }
-                    
+            } else if(type === 'history') {
+                title.innerText = "ประวัติการเล่นล่าสุด";
+                content.innerHTML = '<div class="space-y-2" id="log-list">Loading...</div>';
+                db.ref('game_logs').orderByChild('uid').equalTo(user.uid).limitToLast(20).once('value', s => {
+                    const d = document.getElementById('log-list');
+                    d.innerHTML = '';
+                    if(!s.exists()) { d.innerHTML='<p class="text-center text-gray-500">ไม่มีประวัติ</p>'; return; }
                     const arr = [];
                     s.forEach(c => arr.push(c.val()));
-                    arr.reverse().forEach(t => {
-                        const color = t.type==='deposit' ? 'text-green-400' : 'text-red-400';
-                        const statusColor = t.status==='approved' ? 'text-green-500' : (t.status==='rejected'?'text-red-500':'text-yellow-500');
-                        list.innerHTML += `
-                            <div class="bg-gray-800 p-3 rounded flex justify-between items-center text-sm">
+                    arr.reverse().forEach(log => {
+                        const isWin = log.win > 0;
+                        d.innerHTML += `
+                            <div class="flex justify-between items-center bg-black/50 p-3 rounded border border-white/5">
                                 <div>
-                                    <div class="font-bold ${color}">${t.type==='deposit'?'ฝาก':'ถอน'} ${t.amount}</div>
-                                    <div class="text-xs text-gray-500">${new Date(t.timestamp).toLocaleDateString()}</div>
+                                    <div class="font-bold text-white">${log.wheel}</div>
+                                    <div class="text-xs text-gray-500">${new Date(log.timestamp).toLocaleTimeString()}</div>
                                 </div>
-                                <div class="${statusColor} font-bold uppercase text-xs">${t.status}</div>
+                                <div class="text-right">
+                                    <div class="font-bold ${isWin?'text-green-400':'text-red-400'}">${isWin ? '+'+log.win : '-'+log.bet}</div>
+                                    <div class="text-[10px] text-gray-400">${log.result}</div>
+                                </div>
                             </div>
                         `;
                     });
@@ -339,19 +423,37 @@
             }
         }
 
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+
         function sendTx(type) {
             const amt = parseInt(document.getElementById('tx-amt').value);
-            const info = document.getElementById('tx-info').value;
-            if(!amt || !info) return alert("กรอกให้ครบ");
-            if(type==='withdraw' && amt > userData.balance) return alert("ยอดไม่พอ");
+            const ref = document.getElementById('tx-ref').value;
+            
+            if(!amt || !ref) return alert('กรอกข้อมูลให้ครบ');
+            if(type === 'withdraw' && amt > userData.balance) return alert('ยอดเงินไม่พอ');
 
-            if(type==='withdraw') db.ref(`users/${user.uid}/balance`).set(userData.balance - amt);
+            if(type === 'withdraw') {
+                // Deduct first for withdraw
+                db.ref(`users/${user.uid}/balance`).set(userData.balance - amt);
+            }
 
             db.ref('transactions').push({
-                uid: user.uid, email: user.email, amount: amt, details: info, type: type, status: 'pending', timestamp: Date.now()
+                uid: user.uid,
+                email: user.email,
+                type: type,
+                amount: amt,
+                details: ref,
+                status: 'pending',
+                timestamp: firebase.database.ServerValue.TIMESTAMP
             });
-            alert("ทำรายการสำเร็จ");
-            setWalletTab('his');
+
+            alert('ทำรายการสำเร็จ กรุณารอแอดมินตรวจสอบ');
+            closeModal();
+        }
+
+        // Set Tab visual helper
+        function setTab(t) {
+           // Visual switch logic only
         }
 
     </script>
