@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ป๊อกเด้งออนไลน์ - เล่นกับบอท</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; background: #0f172a; color: white; }
+        .card { width: 70px; height: 100px; background: white; border-radius: 8px; color: black; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .card.red { color: #dc2626; } .card.black { color: #1e293b; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen flex flex-col items-center">
+
+    <div id="auth-screen" class="w-full max-w-md p-6 mt-10">
+        <h1 class="text-3xl font-bold text-yellow-400 text-center mb-6">🎰 ป๊อกเด้ง เศรษฐี</h1>
+        <div class="bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700">
+            <input type="email" id="email" placeholder="อีเมล" class="w-full p-3 mb-3 bg-slate-700 rounded text-white border-none focus:ring-2 focus:ring-yellow-500">
+            <input type="password" id="password" placeholder="รหัสผ่าน" class="w-full p-3 mb-6 bg-slate-700 rounded text-white border-none focus:ring-2 focus:ring-yellow-500">
+            <button onclick="login()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-lg mb-2">เข้าสู่ระบบ</button>
+            <button onclick="register()" class="w-full bg-slate-600 hover:bg-slate-500 text-white font-bold py-3 rounded-lg">สมัครสมาชิกใหม่</button>
+        </div>
+    </div>
+
+    <div id="game-screen" class="hidden w-full max-w-lg p-4">
+        <div class="flex justify-between items-center bg-slate-800 p-3 rounded-lg mb-4 shadow border border-slate-700">
+            <div>
+                <div class="text-xs text-slate-400">ผู้เล่น</div>
+                <div id="username-display" class="font-bold text-lg text-yellow-400">...</div>
+            </div>
+            <div class="text-right">
+                <div class="text-xs text-slate-400">ยอดเงินคงเหลือ</div>
+                <div class="font-bold text-2xl text-green-400">฿<span id="balance-display">0</span></div>
+            </div>
+        </div>
+
+        <div id="announcement-box" class="bg-blue-900/50 p-3 rounded-lg mb-4 text-sm text-blue-200 border border-blue-800 hidden">
+            📢 <span id="announcement-text"></span>
+        </div>
+
+        <div class="bg-green-800/80 rounded-xl p-6 relative min-h-[400px] border-4 border-yellow-600 shadow-2xl">
+            <div class="flex flex-col items-center mb-10">
+                <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center border-2 border-white mb-2 shadow-lg font-bold">บอท</div>
+                <div class="flex gap-2" id="dealer-cards">
+                    <div class="card bg-slate-300">?</div>
+                    <div class="card bg-slate-300">?</div>
+                </div>
+                <div id="dealer-score" class="mt-2 font-bold bg-black/50 px-3 rounded text-sm">รอผล...</div>
+            </div>
+
+            <div id="result-overlay" class="absolute inset-0 flex items-center justify-center bg-black/80 z-10 hidden rounded-xl">
+                <h2 id="result-text" class="text-4xl font-bold text-yellow-400 animate-bounce">ชนะ!</h2>
+            </div>
+
+            <div class="flex flex-col items-center mt-auto">
+                <div id="player-score" class="mb-2 font-bold bg-black/50 px-3 rounded text-sm">แต้มของคุณ</div>
+                <div class="flex gap-2" id="player-cards">
+                    <div class="card bg-slate-700/50 border-2 border-dashed border-slate-500"></div>
+                    <div class="card bg-slate-700/50 border-2 border-dashed border-slate-500"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+            <input type="number" id="bet-amount" value="100" class="col-span-2 p-3 bg-slate-700 rounded text-center font-bold text-white" placeholder="ใส่เงินเดิมพัน">
+            <button id="btn-deal" onclick="startGame()" class="col-span-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-lg text-xl shadow-lg transform active:scale-95 transition">แจกไพ่</button>
+            <button id="btn-hit" onclick="hit()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg hidden">จั่วเพิ่ม</button>
+            <button id="btn-stay" onclick="stay()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-lg hidden">พอ (อยู่)</button>
+        </div>
+
+        <div class="mt-8 grid grid-cols-3 gap-2">
+            <button onclick="toggleModal('deposit-modal')" class="bg-slate-700 p-2 rounded text-sm hover:bg-slate-600">💰 ฝากเงิน</button>
+            <button onclick="toggleModal('withdraw-modal')" class="bg-slate-700 p-2 rounded text-sm hover:bg-slate-600">💸 ถอนเงิน</button>
+            <a id="contact-link" href="#" target="_blank" class="bg-green-700 p-2 rounded text-sm text-center hover:bg-green-600 flex items-center justify-center">💬 ติดต่อแอดมิน</a>
+        </div>
+        <button onclick="logout()" class="w-full mt-4 text-slate-500 text-sm hover:text-white">ออกจากระบบ</button>
+    </div>
+
+    <div id="deposit-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-800 p-6 rounded-lg w-full max-w-sm">
+            <h3 class="text-xl font-bold mb-4">แจ้งฝากเงิน</h3>
+            <div class="bg-slate-700 p-3 rounded mb-4 text-sm">
+                ธนาคาร: <span id="bank-info" class="text-yellow-400">กสิกร 123-4-56789-0</span><br>
+                ชื่อบัญชี: บจก. ป๊อกเด้งจำกัด
+            </div>
+            <input type="number" id="dep-amount" placeholder="จำนวนเงิน" class="w-full p-2 mb-2 bg-slate-900 rounded text-white">
+            <input type="text" id="dep-time" placeholder="เวลาโอน (เช่น 12:30)" class="w-full p-2 mb-4 bg-slate-900 rounded text-white">
+            <button onclick="submitDeposit()" class="w-full bg-green-500 py-2 rounded font-bold mb-2">แจ้งโอน</button>
+            <button onclick="toggleModal('deposit-modal')" class="w-full bg-slate-600 py-2 rounded">ปิด</button>
+        </div>
+    </div>
+
+    <div id="withdraw-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-800 p-6 rounded-lg w-full max-w-sm">
+            <h3 class="text-xl font-bold mb-4">แจ้งถอนเงิน</h3>
+            <input type="number" id="wd-amount" placeholder="จำนวนเงินที่ต้องการถอน" class="w-full p-2 mb-2 bg-slate-900 rounded text-white">
+            <input type="text" id="wd-bank" placeholder="ธนาคารของคุณ" class="w-full p-2 mb-2 bg-slate-900 rounded text-white">
+            <input type="text" id="wd-acc" placeholder="เลขบัญชี" class="w-full p-2 mb-4 bg-slate-900 rounded text-white">
+            <button onclick="submitWithdraw()" class="w-full bg-yellow-500 text-black py-2 rounded font-bold mb-2">ยืนยันการถอน</button>
+            <button onclick="toggleModal('withdraw-modal')" class="w-full bg-slate-600 py-2 rounded">ปิด</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // --- 1. CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyABuBrdprpiN32ZD4cSCiSslkYbRfnWGgE",
+            authDomain: "namba-fe57a.firebaseapp.com",
+            databaseURL: "https://namba-fe57a-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "namba-fe57a",
+            storageBucket: "namba-fe57a.firebasestorage.app",
+            messagingSenderId: "340416568750",
+            appId: "1:340416568750:web:bb0a58ee618978bc107c3f",
+            measurementId: "G-2L2DNXMJ41"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+        let currentUser = null;
+        let userData = {};
+
+        // --- 2. AUTH SYSTEM ---
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('auth-screen').classList.add('hidden');
+                document.getElementById('game-screen').classList.remove('hidden');
+                initUserData();
+            } else {
+                document.getElementById('auth-screen').classList.remove('hidden');
+                document.getElementById('game-screen').classList.add('hidden');
+            }
+        });
+
+        function login() {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('password').value;
+            auth.signInWithEmailAndPassword(e, p).catch(err => alert(err.message));
+        }
+        function register() {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('password').value;
+            auth.createUserWithEmailAndPassword(e, p).then(cred => {
+                // Create user profile in DB
+                db.ref('users/' + cred.user.uid).set({
+                    email: e,
+                    balance: 0,
+                    lock_result: 'normal', // normal, win, lose
+                    created_at: Date.now()
+                });
+            }).catch(err => alert(err.message));
+        }
+        function logout() { auth.signOut(); }
+
+        // --- 3. DATA SYNC ---
+        function initUserData() {
+            // Listen to User Data
+            db.ref('users/' + currentUser.uid).on('value', snap => {
+                userData = snap.val() || {};
+                document.getElementById('username-display').innerText = userData.email.split('@')[0];
+                document.getElementById('balance-display').innerText = userData.balance || 0;
+            });
+
+            // Listen to System Settings
+            db.ref('system').on('value', snap => {
+                const sys = snap.val() || {};
+                if(sys.announcement) {
+                    document.getElementById('announcement-box').classList.remove('hidden');
+                    document.getElementById('announcement-text').innerText = sys.announcement;
+                }
+                if(sys.contact_line) {
+                    document.getElementById('contact-link').href = sys.contact_line;
+                }
+                if(sys.bank_info) {
+                    document.getElementById('bank-info').innerText = sys.bank_info;
+                }
+            });
+        }
+
+        // --- 4. GAME LOGIC (The Core) ---
+        const suits = ['♠', '♥', '♣', '♦'];
+        const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+        let deck = [], pHand = [], dHand = [];
+
+        function getWeight(v) { return (v === 'A') ? 1 : (['10','J','Q','K'].includes(v)) ? 0 : parseInt(v); }
+        function getScore(hand) { return hand.reduce((a,b) => a + b.weight, 0) % 10; }
+        function createDeck() {
+            deck = [];
+            for(let s of suits) for(let v of values) deck.push({suit:s, val:v, weight:getWeight(v)});
+            deck.sort(() => Math.random() - 0.5);
+        }
+
+        function startGame() {
+            const bet = parseInt(document.getElementById('bet-amount').value);
+            if(userData.balance < bet) return alert("เงินไม่พอเติมด่วน!");
+            if(bet <= 0) return alert("ใส่ยอดเงินให้ถูกต้อง");
+
+            // Deduct balance locally first (Server handles security ideally, but this is simple demo)
+            db.ref('users/' + currentUser.uid).update({ balance: userData.balance - bet });
+
+            createDeck();
+            // RIGGING LOGIC (อ่านค่า Luck จาก Admin)
+            if(userData.lock_result === 'win') {
+                // โกงให้ชนะ: ยัดไพ่ป๊อกให้ Player
+                pHand = [{suit:'♠',val:'9',weight:9}, {suit:'♦',val:'K',weight:0}];
+                dHand = [{suit:'♣',val:'2',weight:2}, {suit:'♥',val:'3',weight:3}];
+            } else if(userData.lock_result === 'lose') {
+                // โกงให้แพ้: ยัดไพ่เน่าให้ Player
+                pHand = [{suit:'♠',val:'2',weight:2}, {suit:'♦',val:'3',weight:3}];
+                dHand = [{suit:'♣',val:'9',weight:9}, {suit:'♥',val:'K',weight:0}];
+            } else {
+                // ดวงปกติ
+                pHand = [deck.pop(), deck.pop()];
+                dHand = [deck.pop(), deck.pop()];
+            }
+
+            renderGame(false);
+            
+            // Toggle Buttons
+            document.getElementById('btn-deal').classList.add('hidden');
+            document.getElementById('btn-hit').classList.remove('hidden');
+            document.getElementById('btn-stay').classList.remove('hidden');
+            document.getElementById('result-overlay').classList.add('hidden');
+            document.getElementById('bet-amount').disabled = true;
+        }
+
+        function hit() {
+            pHand.push(deck.pop());
+            stay();
+        }
+
+        function stay() {
+            // Dealer Logic (Bot)
+            let dScore = getScore(dHand);
+            if(dScore < 4) dHand.push(deck.pop()); // Dealer hit on < 4
+
+            endGame();
+        }
+
+        function endGame() {
+            renderGame(true);
+            const pScore = getScore(pHand);
+            const dScore = getScore(dHand);
+            const bet = parseInt(document.getElementById('bet-amount').value);
+            let winAmount = 0;
+            let resultTxt = "";
+
+            if(pScore > dScore) {
+                resultTxt = "ชนะ! +" + bet;
+                winAmount = bet * 2;
+                document.getElementById('result-text').classList.replace('text-red-500', 'text-yellow-400');
+            } else if (pScore < dScore) {
+                resultTxt = "แพ้!";
+                winAmount = 0;
+                document.getElementById('result-text').classList.replace('text-yellow-400', 'text-red-500');
+            } else {
+                resultTxt = "เสมอ";
+                winAmount = bet;
+                document.getElementById('result-text').classList.replace('text-red-500', 'text-white');
+            }
+
+            // Update Result UI
+            document.getElementById('result-text').innerText = resultTxt;
+            document.getElementById('result-overlay').classList.remove('hidden');
+
+            // Update Balance in DB
+            if(winAmount > 0) {
+                db.ref('users/' + currentUser.uid).update({ balance: userData.balance + winAmount });
+            }
+
+            // Reset UI State
+            setTimeout(() => {
+                document.getElementById('btn-deal').classList.remove('hidden');
+                document.getElementById('btn-hit').classList.add('hidden');
+                document.getElementById('btn-stay').classList.add('hidden');
+                document.getElementById('bet-amount').disabled = false;
+                document.getElementById('result-overlay').classList.add('hidden');
+            }, 3000);
+        }
+
+        function renderGame(showDealer) {
+            // Render Player
+            const pDiv = document.getElementById('player-cards');
+            pDiv.innerHTML = pHand.map(c => `<div class="card ${['♥','♦'].includes(c.suit)?'red':'black'}">${c.val}<br>${c.suit}</div>`).join('');
+            document.getElementById('player-score').innerText = `แต้มของคุณ: ${getScore(pHand)}`;
+
+            // Render Dealer
+            const dDiv = document.getElementById('dealer-cards');
+            if(showDealer) {
+                dDiv.innerHTML = dHand.map(c => `<div class="card ${['♥','♦'].includes(c.suit)?'red':'black'}">${c.val}<br>${c.suit}</div>`).join('');
+                document.getElementById('dealer-score').innerText = `แต้มบอท: ${getScore(dHand)}`;
+            } else {
+                dDiv.innerHTML = `<div class="card bg-slate-300">?</div><div class="card bg-slate-300">?</div>`;
+                document.getElementById('dealer-score').innerText = `รอผล...`;
+            }
+        }
+
+        // --- 5. FINANCE SYSTEM ---
+        function toggleModal(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+
+        function submitDeposit() {
+            const amt = document.getElementById('dep-amount').value;
+            const time = document.getElementById('dep-time').value;
+            if(!amt) return;
+            db.ref('transactions').push({
+                uid: currentUser.uid,
+                email: userData.email,
+                type: 'deposit',
+                amount: parseInt(amt),
+                details: time,
+                status: 'pending',
+                timestamp: Date.now()
+            });
+            alert('แจ้งฝากเรียบร้อย รอแอดมินอนุมัติ');
+            toggleModal('deposit-modal');
+        }
+
+        function submitWithdraw() {
+            const amt = document.getElementById('wd-amount').value;
+            const bank = document.getElementById('wd-bank').value;
+            const acc = document.getElementById('wd-acc').value;
+            if(amt > userData.balance) return alert('ยอดเงินไม่พอ');
+            
+            // Deduct immediately (Lock funds)
+            db.ref('users/' + currentUser.uid).update({ balance: userData.balance - parseInt(amt) });
+
+            db.ref('transactions').push({
+                uid: currentUser.uid,
+                email: userData.email,
+                type: 'withdraw',
+                amount: parseInt(amt),
+                details: `${bank} - ${acc}`,
+                status: 'pending',
+                timestamp: Date.now()
+            });
+            alert('แจ้งถอนเรียบร้อย');
+            toggleModal('withdraw-modal');
+        }
+
+    </script>
+</body>
+</html>
