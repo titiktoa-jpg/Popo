@@ -3,186 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>POKPOK67</title>
+    <title>UFA-RICH888 | คาสิโนอันดับ 1</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        body { font-family: 'Kanit', sans-serif; background: #0f172a; overflow: hidden; }
+        /* --- CORE THEME --- */
+        body { font-family: 'Kanit', sans-serif; background-color: #0F172A; color: white; overflow: hidden; }
         
-        /* Glassmorphism Effect */
+        /* Gold Gradient Text */
+        .text-gold {
+            background: linear-gradient(to bottom, #FCD34D, #B45309);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gold { background: linear-gradient(135deg, #FCD34D 0%, #D97706 100%); }
+        
+        /* Glass Effect */
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .glass-panel { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(15px); }
         
-        /* Card Styling */
-        .game-table { background: radial-gradient(circle, #15803d 0%, #064e3b 100%); position: relative; box-shadow: inset 0 0 100px rgba(0,0,0,0.8); }
-        .card-slot { width: 80px; height: 110px; position: relative; perspective: 1000px; }
-        .playing-card { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; transition: transform 0.6s; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
-        .playing-card.flipped { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; display: flex; justify-content: center; items-center; font-weight: bold; font-size: 24px; background: white; }
-        .card-back { background: repeating-linear-gradient(45deg, #b91c1c, #b91c1c 10px, #991b1b 10px, #991b1b 20px); border: 2px solid #fff; transform: rotateY(0deg); } /* Default show back */
-        .card-front { transform: rotateY(180deg); color: #1e293b; position: relative; }
-        .card-front.red { color: #dc2626; }
-        
-        /* Chip Styling */
-        .poker-chip { width: 55px; height: 55px; border-radius: 50%; border: 4px dashed rgba(255,255,255,0.5); display: flex; items-center; justify-content: center; font-weight: bold; color: white; box-shadow: 0 3px 5px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.1s; position: relative; }
-        .poker-chip:active { transform: scale(0.9); }
-        .poker-chip::before { content: ''; position: absolute; inset: 2px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.2); }
+        /* --- CARD ANIMATIONS --- */
+        .card-container { width: 70px; height: 100px; perspective: 1000px; margin: 0 5px; position: relative; }
+        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card-flipped .card-inner { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.5); display: flex; justify-content: center; items-center; font-weight: bold; font-size: 20px; background: white; border: 2px solid white;}
+        .card-back { background: repeating-linear-gradient(45deg, #991b1b, #991b1b 10px, #7f1d1d 10px, #7f1d1d 20px); color: transparent; }
+        .card-front { transform: rotateY(180deg); color: #1e293b; }
+        .card-red { color: #dc2626; }
 
-        /* Sidebar Transition */
+        /* --- SIDEBAR ANIMATION --- */
         #sidebar { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .translate-x-full-negative { transform: translateX(-100%); }
+        .sidebar-closed { transform: translateX(-100%); }
     </style>
 </head>
-<body class="text-white h-screen flex flex-col">
+<body class="h-screen flex flex-col">
 
-    <div id="screen-login" class="fixed inset-0 z-50 bg-[url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=2073&auto=format&fit=crop')] bg-cover bg-center flex items-center justify-center">
+    <div id="screen-login" class="fixed inset-0 z-50 flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1596838132731-3301c3fd4317?q=80&w=2070')] bg-cover bg-center">
         <div class="absolute inset-0 bg-black/80"></div>
-        <div class="relative glass-panel p-8 rounded-2xl w-full max-w-sm mx-4 text-center border border-yellow-500/30 shadow-2xl shadow-yellow-500/10">
-            <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 mb-2">ROYAL POK88</h1>
-            <p class="text-gray-400 text-sm mb-6">The Best Casino Experience</p>
+        <div class="relative w-full max-w-sm p-8 glass rounded-2xl mx-4 text-center border-t border-yellow-500/50 shadow-[0_0_50px_rgba(234,179,8,0.2)]">
+            <i class="fas fa-crown text-5xl text-yellow-500 mb-4 animate-bounce"></i>
+            <h1 class="text-4xl font-black text-white mb-1 tracking-wider">UFA<span class="text-yellow-500">RICH</span></h1>
+            <p class="text-gray-400 text-sm mb-8">เว็บตรง มั่นคง ปลอดภัย 100%</p>
             
-            <input type="text" id="inp-user" placeholder="ชื่อผู้ใช้งาน (ไม่ต้องใส่รหัส)" class="w-full bg-slate-900/50 border border-slate-700 text-white px-4 py-3 rounded-xl mb-4 focus:border-yellow-500 outline-none transition text-center">
-            
-            <button onclick="doLogin()" class="w-full bg-gradient-to-r from-yellow-500 to-amber-600 text-black font-bold py-3 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition">เข้าสู่ระบบทันที</button>
-            <p class="mt-4 text-xs text-gray-500">ระบบสร้างไอดีให้อัตโนมัติหากเข้าเล่นครั้งแรก</p>
+            <input id="inp-user" type="text" placeholder="เบอร์โทรศัพท์ (User)" class="w-full bg-slate-900/80 border border-slate-700 text-center text-white p-3 rounded-xl mb-3 focus:border-yellow-500 outline-none transition">
+            <button onclick="doLogin()" class="w-full bg-gold text-black font-bold text-lg py-3 rounded-xl shadow-lg hover:scale-105 transition">เข้าสู่ระบบ</button>
+            <p class="mt-4 text-xs text-gray-500">ระบบสมัครสมาชิกให้อัตโนมัติเมื่อเข้าเล่นครั้งแรก</p>
         </div>
     </div>
 
-    <div id="screen-app" class="hidden h-full flex flex-col relative bg-slate-900">
+    <div id="screen-app" class="hidden flex-1 flex flex-col relative bg-slate-900">
         
-        <header class="h-16 glass z-30 flex items-center justify-between px-4 sticky top-0">
-            <button onclick="toggleSidebar()" class="text-2xl text-yellow-500 w-10 h-10 flex items-center justify-center active:scale-90 transition">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="font-bold text-lg tracking-wider text-yellow-400">ROYAL <span class="text-white">POK88</span></div>
-            <div class="bg-black/40 px-3 py-1.5 rounded-full flex items-center gap-2 border border-yellow-500/30">
+        <header class="h-16 bg-slate-900/90 backdrop-blur border-b border-slate-800 flex items-center justify-between px-4 sticky top-0 z-30">
+            <button onclick="toggleSidebar()" class="text-2xl text-yellow-500 w-10 h-10 active:scale-90"><i class="fas fa-bars"></i></button>
+            <div class="font-bold text-xl tracking-widest text-white">UFA<span class="text-yellow-500">RICH</span></div>
+            <div class="bg-slate-800 px-3 py-1 rounded-full border border-yellow-500/30 flex items-center gap-2">
                 <i class="fas fa-coins text-yellow-500"></i>
-                <span id="nav-balance" class="font-mono font-bold text-sm">0.00</span>
+                <span id="head-bal" class="font-mono font-bold">0.00</span>
             </div>
         </header>
 
-        <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/80 z-40 hidden fade-in"></div>
-        <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-slate-900 z-50 shadow-2xl border-r border-slate-800 transform translate-x-full-negative flex flex-col">
-            <div class="h-32 bg-gradient-to-br from-slate-900 to-slate-800 flex flex-col items-center justify-center border-b border-slate-800">
-                <div class="w-16 h-16 rounded-full bg-yellow-500 flex items-center justify-center text-3xl text-black shadow-lg mb-2">
+        <div id="menu-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/80 z-40 hidden transition-opacity"></div>
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-slate-900 z-50 border-r border-slate-800 sidebar-closed flex flex-col">
+            <div class="h-40 flex flex-col items-center justify-center bg-gradient-to-b from-slate-800 to-slate-900 border-b border-slate-800">
+                <div class="w-16 h-16 rounded-full bg-yellow-500 flex items-center justify-center text-3xl text-black mb-2 shadow-[0_0_15px_rgba(234,179,8,0.5)]">
                     <i class="fas fa-user-astronaut"></i>
                 </div>
-                <div id="side-user" class="font-bold text-lg">Guest</div>
+                <div id="menu-user" class="font-bold text-lg text-white">User123</div>
+                <div class="text-xs text-green-400">● Online</div>
             </div>
-            <nav class="flex-1 p-4 space-y-2">
-                <button onclick="navTo('lobby')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 hover:text-yellow-400 transition flex items-center gap-3">
-                    <i class="fas fa-home w-6"></i> หน้าหลัก
-                </button>
-                <button onclick="navTo('history')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 hover:text-yellow-400 transition flex items-center gap-3">
-                    <i class="fas fa-history w-6"></i> ประวัติรายการ
-                </button>
-                <button onclick="openLinkLine()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 hover:text-green-400 transition flex items-center gap-3">
-                    <i class="fab fa-line w-6"></i> ติดต่อแอดมิน
-                </button>
+            <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+                <button onclick="nav('lobby')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 hover:text-yellow-500 transition flex gap-3"><i class="fas fa-home w-6"></i> หน้าหลัก</button>
+                <button onclick="nav('history')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 hover:text-yellow-500 transition flex gap-3"><i class="fas fa-history w-6"></i> ประวัติการเล่น</button>
+                <button onclick="openModal('deposit')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 hover:text-green-400 transition flex gap-3"><i class="fas fa-arrow-down w-6"></i> ฝากเงิน</button>
+                <button onclick="openModal('withdraw')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800 text-gray-300 hover:text-red-400 transition flex gap-3"><i class="fas fa-arrow-up w-6"></i> ถอนเงิน</button>
+                <div class="border-t border-slate-800 my-2"></div>
+                <button onclick="firebase.auth().signOut(); location.reload()" class="w-full text-left px-4 py-3 rounded-xl text-red-500 hover:bg-red-500/10 transition flex gap-3"><i class="fas fa-sign-out-alt w-6"></i> ออกจากระบบ</button>
             </nav>
-            <div class="p-4">
-                <button onclick="logout()" class="w-full py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition">ออกจากระบบ</button>
-            </div>
         </aside>
 
-        <main class="flex-1 overflow-hidden relative">
+        <main class="flex-1 relative overflow-hidden">
             
-            <div id="page-lobby" class="absolute inset-0 overflow-y-auto p-4 pb-20 space-y-4">
-                <div class="w-full h-40 bg-gradient-to-r from-yellow-600 to-amber-700 rounded-2xl relative overflow-hidden shadow-lg flex items-center px-6">
-                    <div class="absolute right-0 top-0 opacity-20 transform translate-x-10 -translate-y-4">
-                        <i class="fas fa-crown text-9xl text-white"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <div class="bg-black/30 text-xs px-2 py-1 rounded inline-block text-white mb-2">HOT GAME</div>
-                        <h2 class="text-2xl font-bold text-white mb-1">ป๊อกเด้งออนไลน์</h2>
-                        <p class="text-yellow-100 text-sm">เล่นง่าย จ่ายจริง ระบบอัตโนมัติ</p>
+            <div id="page-lobby" class="absolute inset-0 overflow-y-auto p-4 space-y-4">
+                <div class="relative w-full h-48 rounded-2xl overflow-hidden shadow-2xl group">
+                    <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=2073" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent flex flex-col justify-center px-6">
+                        <span class="bg-red-600 text-white text-xs px-2 py-1 rounded w-max mb-2">HOT</span>
+                        <h2 class="text-3xl font-bold text-white mb-1">ป๊อกเด้ง ออนไลน์</h2>
+                        <p class="text-yellow-400 text-sm">ระบบออโต้ จ่ายจริง ไม่มีโกง</p>
+                        <button onclick="nav('game')" class="mt-4 bg-yellow-500 text-black px-6 py-2 rounded-full font-bold w-max hover:bg-yellow-400 transition">เข้าเล่นเลย <i class="fas fa-play ml-1"></i></button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <button onclick="navTo('game')" class="bg-slate-800 p-4 rounded-xl border border-slate-700 hover:border-yellow-500 transition group relative overflow-hidden h-32 flex flex-col items-center justify-center gap-2">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-0"></div>
-                        <i class="fas fa-play-circle text-4xl text-green-500 relative z-10 group-hover:scale-110 transition"></i>
-                        <span class="relative z-10 font-bold">เข้าเล่นเกม</span>
-                    </button>
-                    <button onclick="navTo('deposit')" class="bg-slate-800 p-4 rounded-xl border border-slate-700 hover:border-blue-500 transition h-32 flex flex-col items-center justify-center gap-2">
-                        <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500 text-xl"><i class="fas fa-wallet"></i></div>
-                        <span class="font-bold">ฝากเงิน</span>
-                    </button>
-                    <button onclick="navTo('withdraw')" class="bg-slate-800 p-4 rounded-xl border border-slate-700 hover:border-red-500 transition h-32 flex flex-col items-center justify-center gap-2">
-                        <div class="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center text-red-500 text-xl"><i class="fas fa-hand-holding-usd"></i></div>
-                        <span class="font-bold">ถอนเงิน</span>
-                    </button>
+                    <div onclick="openModal('deposit')" class="bg-slate-800 p-4 rounded-2xl border border-slate-700 flex flex-col items-center justify-center gap-2 hover:border-green-500 transition cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-500 text-xl"><i class="fas fa-wallet"></i></div>
+                        <span class="font-bold">ฝากเครดิต</span>
+                    </div>
+                    <div onclick="openModal('withdraw')" class="bg-slate-800 p-4 rounded-2xl border border-slate-700 flex flex-col items-center justify-center gap-2 hover:border-red-500 transition cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center text-red-500 text-xl"><i class="fas fa-hand-holding-usd"></i></div>
+                        <span class="font-bold">ถอนเครดิต</span>
+                    </div>
+                </div>
+
+                <div class="bg-black/40 p-2 rounded-lg flex items-center gap-2 border border-slate-800">
+                    <i class="fas fa-bullhorn text-yellow-500"></i>
+                    <marquee class="text-sm text-gray-400">ยินดีต้อนรับสู่ UFARICH เว็บตรงอันดับ 1 ฝาก-ถอน ออโต้ 3 วินาที แอดมินดูแลตลอด 24 ชม.</marquee>
                 </div>
             </div>
 
-            <div id="page-history" class="absolute inset-0 overflow-y-auto bg-slate-900 hidden">
-                <div class="p-4 sticky top-0 bg-slate-900 z-10 border-b border-slate-800">
-                    <h2 class="font-bold text-xl"><i class="fas fa-clock mr-2 text-yellow-500"></i> ประวัติธุรกรรม</h2>
+            <div id="page-history" class="hidden absolute inset-0 overflow-y-auto bg-slate-900">
+                <div class="p-4 bg-slate-800 sticky top-0 z-10 shadow-lg mb-2">
+                    <h2 class="text-xl font-bold text-white"><i class="fas fa-list-alt text-yellow-500 mr-2"></i> ประวัติรายการ</h2>
                 </div>
-                <div id="history-list" class="p-4 space-y-3">
-                    <div class="text-center text-gray-500 mt-10">กำลังโหลด...</div>
-                </div>
+                <div id="txn-list" class="p-4 space-y-3 pb-20"></div>
             </div>
 
-            <div id="page-game" class="absolute inset-0 bg-black hidden flex flex-col">
-                <div class="absolute top-0 w-full p-3 z-20 flex justify-between items-start pointer-events-none">
-                    <button onclick="navTo('lobby')" class="bg-black/40 backdrop-blur pointer-events-auto text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition"><i class="fas fa-sign-out-alt"></i></button>
+            <div id="page-game" class="hidden absolute inset-0 bg-[#1a472a] flex flex-col overflow-hidden">
+                <div class="absolute top-0 w-full p-4 flex justify-between items-start z-10">
+                    <button onclick="nav('lobby')" class="bg-black/40 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-500 transition"><i class="fas fa-arrow-left"></i></button>
+                    <div class="text-center">
+                        <div class="text-xs text-green-200">ROOM: 888</div>
+                        <div class="font-bold text-yellow-400 tracking-wider">POKDENG</div>
+                    </div>
+                    <div class="w-10"></div>
                 </div>
 
-                <div class="flex-1 game-table flex flex-col justify-between py-8 relative overflow-hidden">
+                <div class="flex-1 relative flex flex-col justify-between py-12 bg-[radial-gradient(circle_at_center,_#15803d,_#022c22)]">
                     
-                    <div class="flex flex-col items-center mt-6">
-                        <div class="relative mb-2">
-                            <div class="w-14 h-14 rounded-full border-2 border-yellow-500 bg-slate-800 flex items-center justify-center shadow-lg z-10 relative">
-                                <i class="fas fa-user-secret text-xl"></i>
-                            </div>
-                            <div id="score-dealer" class="absolute -right-3 -bottom-1 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm border-2 border-white shadow scale-0 transition-transform duration-300">0</div>
-                        </div>
-                        <div id="hand-dealer" class="flex justify-center gap-2 h-28 w-full relative"></div>
-                    </div>
-
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-0">
-                        <h1 class="text-5xl font-black text-white/5 tracking-widest">ROYAL</h1>
-                        <div id="game-status-text" class="text-2xl font-bold text-yellow-400 drop-shadow-md mt-2 h-8 transition-all duration-300"></div>
-                    </div>
-
-                    <div class="flex flex-col items-center mb-24">
-                        <div id="hand-player" class="flex justify-center gap-2 h-28 w-full relative mb-2"></div>
+                    <div class="flex flex-col items-center mt-4">
                         <div class="relative">
-                            <div class="bg-black/50 backdrop-blur px-4 py-1 rounded-full text-sm font-bold border border-white/20">คุณ (Player)</div>
-                            <div id="score-player" class="absolute -right-4 -top-3 bg-blue-600 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm border-2 border-white shadow scale-0 transition-transform duration-300">0</div>
+                            <div class="w-16 h-16 rounded-full bg-slate-900 border-2 border-yellow-500 flex items-center justify-center text-2xl shadow-xl z-10 relative">
+                                <i class="fas fa-user-secret text-gray-300"></i>
+                            </div>
+                            <div id="score-dealer" class="absolute -right-2 -bottom-2 bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-2 border-white scale-0 transition-transform">0</div>
                         </div>
+                        <div id="hand-dealer" class="flex justify-center mt-2 h-[100px] w-full"></div>
                     </div>
 
-                    <div class="absolute bottom-0 w-full bg-slate-900/90 backdrop-blur-md p-4 border-t border-slate-700 z-20">
-                        <div id="ctrl-bet" class="flex flex-col items-center gap-3">
-                            <div class="flex justify-center gap-4">
-                                <div onclick="addBet(10)" class="poker-chip bg-blue-500">10</div>
-                                <div onclick="addBet(50)" class="poker-chip bg-purple-500">50</div>
-                                <div onclick="addBet(100)" class="poker-chip bg-red-500">100</div>
-                                <div onclick="addBet(500)" class="poker-chip bg-yellow-500 text-black">500</div>
-                            </div>
-                            <div class="flex items-center gap-3 w-full justify-between px-4">
-                                <div class="text-gray-400 text-sm">เดิมพัน: <span id="txt-bet" class="text-yellow-400 font-bold text-lg">0</span></div>
-                                <button onclick="resetBet()" class="text-gray-500 text-xs underline">ล้างค่า</button>
-                            </div>
-                            <button onclick="startGame()" id="btn-deal" class="w-full bg-gradient-to-r from-green-500 to-green-700 py-3 rounded-xl font-bold shadow-lg shadow-green-500/30 text-lg disabled:opacity-50 disabled:cursor-not-allowed">ยืนยัน / แจกไพ่</button>
-                        </div>
+                    <div id="game-result" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none opacity-0 transition-opacity duration-500">
+                        <div class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] stroke-black" style="-webkit-text-stroke: 1px black;">YOU WIN</div>
+                    </div>
 
-                        <div id="ctrl-action" class="hidden flex justify-center gap-3">
-                            <button onclick="playerAction('hit')" class="flex-1 bg-blue-600 py-3 rounded-xl font-bold shadow-lg border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">จั่ว (Hit)</button>
-                            <button onclick="playerAction('stay')" class="flex-1 bg-red-600 py-3 rounded-xl font-bold shadow-lg border-b-4 border-red-800 active:border-b-0 active:translate-y-1">พอ (Stay)</button>
+                    <div class="flex flex-col items-center mb-20">
+                        <div id="hand-player" class="flex justify-center mb-2 h-[100px] w-full"></div>
+                        <div class="relative">
+                            <div class="bg-black/60 backdrop-blur px-6 py-1 rounded-full border border-white/20 text-sm font-bold text-white">คุณ (Player)</div>
+                            <div id="score-player" class="absolute -right-4 -top-4 bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-2 border-white scale-0 transition-transform">0</div>
                         </div>
-                        
-                        <div id="ctrl-reset" class="hidden text-center">
-                            <button onclick="resetGameTable()" class="w-full bg-yellow-500 text-black py-3 rounded-xl font-bold shadow-lg animate-pulse">เล่นตาถัดไป</button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/95 p-4 border-t border-slate-700 z-30">
+                    <div id="ctrl-bet" class="flex flex-col gap-3">
+                        <div class="flex justify-center gap-4">
+                            <button onclick="addBet(10)" class="w-14 h-14 rounded-full bg-blue-600 border-4 border-dashed border-white/30 shadow-lg text-white font-bold text-xs flex flex-col items-center justify-center hover:-translate-y-1 transition"><span>10</span></button>
+                            <button onclick="addBet(50)" class="w-14 h-14 rounded-full bg-purple-600 border-4 border-dashed border-white/30 shadow-lg text-white font-bold text-xs flex flex-col items-center justify-center hover:-translate-y-1 transition"><span>50</span></button>
+                            <button onclick="addBet(100)" class="w-14 h-14 rounded-full bg-red-600 border-4 border-dashed border-white/30 shadow-lg text-white font-bold text-xs flex flex-col items-center justify-center hover:-translate-y-1 transition"><span>100</span></button>
+                            <button onclick="addBet(500)" class="w-14 h-14 rounded-full bg-yellow-500 border-4 border-dashed border-black/30 shadow-lg text-black font-bold text-xs flex flex-col items-center justify-center hover:-translate-y-1 transition"><span>500</span></button>
                         </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-400 text-xs">BET: <b class="text-yellow-500 text-lg" id="txt-bet">0</b></span>
+                            <button onclick="resetBet()" class="text-xs text-red-400 underline">ล้าง</button>
+                        </div>
+                        <button onclick="startGame()" id="btn-confirm" class="w-full bg-gradient-to-r from-green-500 to-green-700 text-white font-bold py-3 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">ยืนยันเดิมพัน</button>
+                    </div>
+                    
+                    <div id="ctrl-action" class="hidden flex gap-3">
+                        <button onclick="hitCard()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl shadow-[0_4px_0_rgb(30,58,138)] active:shadow-none active:translate-y-1 transition">จั่วไพ่ (Hit)</button>
+                        <button onclick="stay()" class="flex-1 bg-red-600 text-white font-bold py-3 rounded-xl shadow-[0_4px_0_rgb(153,27,27)] active:shadow-none active:translate-y-1 transition">พอ (Stay)</button>
+                    </div>
+
+                    <div id="ctrl-reset" class="hidden">
+                        <button onclick="resetTable()" class="w-full bg-yellow-500 text-black font-bold py-3 rounded-xl shadow-lg animate-pulse">เล่นตาต่อไป</button>
                     </div>
                 </div>
             </div>
@@ -190,17 +185,22 @@
         </main>
     </div>
 
-    <div id="txn-modal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4">
-        <div class="bg-slate-800 text-white w-full max-w-sm rounded-2xl p-6 relative border border-slate-700">
-            <button onclick="document.getElementById('txn-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400"><i class="fas fa-times"></i></button>
-            <h3 id="txn-title" class="font-bold text-xl mb-4">ทำรายการ</h3>
-            <div id="bank-info" class="bg-slate-900 p-4 rounded-lg text-center mb-4 hidden">
-                <p class="text-gray-400 text-xs">โอนเงินมาที่</p>
-                <p class="text-xl text-green-400 font-mono">012-345-6789</p>
-                <p class="text-sm">กสิกรไทย - บจก.รอยัล</p>
+    <div id="modal-txn" class="fixed inset-0 z-[60] bg-black/90 hidden items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-slate-800 rounded-2xl border border-slate-700 p-6 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400"><i class="fas fa-times"></i></button>
+            <h3 id="modal-title" class="text-xl font-bold text-white mb-4">ฝากเงิน</h3>
+            
+            <div id="bank-box" class="hidden bg-slate-900 p-4 rounded-xl text-center mb-4 border border-slate-700">
+                <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/kbank_logo_icon_170660.png" class="w-12 h-12 mx-auto mb-2 rounded-full">
+                <div class="text-gray-400 text-xs">ธนาคารกสิกรไทย</div>
+                <div class="text-xl text-green-400 font-mono font-bold my-1">123-4-56789-0</div>
+                <div class="text-sm text-white">บจก. ยูฟ่าริช</div>
             </div>
-            <input type="number" id="txn-amount" placeholder="ระบุจำนวนเงิน" class="w-full bg-slate-900 border border-slate-600 p-3 rounded-lg mb-3 text-white outline-none focus:border-yellow-500">
-            <button onclick="confirmTxn()" class="w-full bg-yellow-500 text-black py-3 rounded-lg font-bold">แจ้งทำรายการ</button>
+
+            <label class="text-xs text-gray-400">จำนวนเงิน</label>
+            <input type="number" id="inp-amt" class="w-full bg-slate-900 border border-slate-600 text-white p-3 rounded-xl mb-4 text-xl font-bold text-center focus:border-yellow-500 outline-none">
+            
+            <button onclick="submitTxn()" class="w-full bg-yellow-500 text-black font-bold py-3 rounded-xl">แจ้งทำรายการ</button>
         </div>
     </div>
 
@@ -209,7 +209,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <script>
-        // 1. FIREBASE CONFIG (ใส่ค่าเดิมของคุณที่นี่)
+        // --- 1. CONFIG & SETUP ---
         const firebaseConfig = {
             apiKey: "AIzaSyABuBrdprpiN32ZD4cSCiSslkYbRfnWGgE",
             authDomain: "namba-fe57a.firebaseapp.com",
@@ -220,154 +220,140 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.database();
-        let currentUser = null;
-        let userData = null;
+        let user = null;
+        let userData = {};
 
-        // 2. AUTH SYSTEM
-        function doLogin() {
-            const u = document.getElementById('inp-user').value;
-            if(!u) return alert('กรุณาใส่ชื่อผู้ใช้งาน');
-            const email = u + "@pok88.com";
-            const pass = "123456"; // Default password for simplicity
-
-            auth.signInWithEmailAndPassword(email, pass).catch(err => {
-                if(err.code === 'auth/user-not-found') {
-                    auth.createUserWithEmailAndPassword(email, pass).then(cred => {
-                        db.ref('users/' + cred.user.uid).set({
-                            email: email, balance: 100, status: 'normal', winRate: 50
-                        });
-                    });
-                } else { alert(err.message); }
-            });
-        }
-
+        // --- 2. AUTH SYSTEM ---
         auth.onAuthStateChanged(u => {
-            currentUser = u;
+            user = u;
             if(u) {
                 document.getElementById('screen-login').classList.add('hidden');
                 document.getElementById('screen-app').classList.remove('hidden');
-                initUserData();
+                initUser();
             } else {
                 document.getElementById('screen-login').classList.remove('hidden');
                 document.getElementById('screen-app').classList.add('hidden');
             }
         });
 
-        function logout() { auth.signOut(); location.reload(); }
-
-        function initUserData() {
-            db.ref('users/' + currentUser.uid).on('value', s => {
-                userData = s.val();
-                document.getElementById('nav-balance').innerText = userData.balance.toLocaleString();
-                document.getElementById('side-user').innerText = userData.email.split('@')[0];
+        function doLogin() {
+            const tel = document.getElementById('inp-user').value;
+            if(tel.length < 4) return Swal.fire('Error', 'กรุณากรอกเบอร์โทร', 'error');
+            const email = tel + "@ufarich.com";
+            const pass = "123456"; // Default Pass
+            
+            auth.signInWithEmailAndPassword(email, pass).catch(err => {
+                if(err.code === 'auth/user-not-found') {
+                    auth.createUserWithEmailAndPassword(email, pass).then(c => {
+                        db.ref('users/' + c.user.uid).set({ 
+                            balance: 0, 
+                            email: email, 
+                            status: 'normal',
+                            winRate: 50 
+                        });
+                    });
+                } else {
+                    Swal.fire('Error', err.message, 'error');
+                }
             });
         }
 
-        // 3. NAVIGATION UI
+        function initUser() {
+            db.ref('users/' + user.uid).on('value', s => {
+                userData = s.val() || {balance: 0};
+                document.getElementById('head-bal').innerText = userData.balance.toLocaleString('en-US', {minimumFractionDigits: 2});
+                document.getElementById('menu-user').innerText = userData.email.split('@')[0];
+            });
+        }
+
+        // --- 3. UI NAVIGATION ---
         function toggleSidebar() {
             const sb = document.getElementById('sidebar');
-            const bd = document.getElementById('sidebar-backdrop');
-            const isOpen = !sb.classList.contains('translate-x-full-negative');
+            const bd = document.getElementById('sidebar-backdrop'); // Fix ID mismatch
+            const menuBackdrop = document.getElementById('menu-backdrop');
             
-            if(isOpen) {
-                sb.classList.add('translate-x-full-negative');
-                bd.classList.add('hidden');
+            if(sb.classList.contains('sidebar-closed')) {
+                sb.classList.remove('sidebar-closed');
+                menuBackdrop.classList.remove('hidden');
             } else {
-                sb.classList.remove('translate-x-full-negative');
-                bd.classList.remove('hidden');
+                sb.classList.add('sidebar-closed');
+                menuBackdrop.classList.add('hidden');
             }
         }
 
-        let currentPage = 'lobby';
-        function navTo(page) {
-            // Close Sidebar first
-            document.getElementById('sidebar').classList.add('translate-x-full-negative');
-            document.getElementById('sidebar-backdrop').classList.add('hidden');
+        function nav(page) {
+            // Close sidebar
+            document.getElementById('sidebar').classList.add('sidebar-closed');
+            document.getElementById('menu-backdrop').classList.add('hidden');
 
-            if(page === 'deposit' || page === 'withdraw') {
-                openTxnModal(page);
-                return;
-            }
-
-            // Hide all pages
-            ['lobby', 'history', 'game'].forEach(p => {
-                document.getElementById('page-'+p).classList.add('hidden');
-            });
-
-            // Show target
+            ['lobby', 'history', 'game'].forEach(p => document.getElementById('page-'+p).classList.add('hidden'));
             document.getElementById('page-'+page).classList.remove('hidden');
-            currentPage = page;
 
             if(page === 'history') loadHistory();
-            if(page === 'game') resetGameTable();
+            if(page === 'game') resetTable();
         }
 
-        // 4. TRANSACTION & HISTORY
-        let currentTxnType = '';
-        function openTxnModal(type) {
-            currentTxnType = type;
-            document.getElementById('txn-modal').classList.remove('hidden');
-            document.getElementById('txn-modal').classList.add('flex');
-            document.getElementById('txn-title').innerText = type === 'deposit' ? 'ฝากเงิน' : 'ถอนเงิน';
-            document.getElementById('bank-info').style.display = type === 'deposit' ? 'block' : 'none';
+        // --- 4. TRANSACTION SYSTEM ---
+        let txnType = '';
+        function openModal(type) {
+            txnType = type;
+            document.getElementById('modal-txn').classList.remove('hidden');
+            document.getElementById('modal-txn').classList.add('flex');
+            document.getElementById('modal-title').innerText = type === 'deposit' ? 'ฝากเงิน' : 'ถอนเงิน';
+            document.getElementById('bank-box').style.display = type === 'deposit' ? 'block' : 'none';
+        }
+        function closeModal() {
+            document.getElementById('modal-txn').classList.add('hidden');
+            document.getElementById('modal-txn').classList.remove('flex');
         }
 
-        function confirmTxn() {
-            const amt = parseInt(document.getElementById('txn-amount').value);
-            if(!amt || amt <= 0) return alert('จำนวนเงินไม่ถูกต้อง');
+        function submitTxn() {
+            const amt = parseFloat(document.getElementById('inp-amt').value);
+            if(!amt || amt <= 0) return Swal.fire('ยอดเงินไม่ถูกต้อง');
             
+            // Check withdraw balance
+            if(txnType === 'withdraw' && amt > userData.balance) return Swal.fire('ยอดเงินไม่พอ');
+
             db.ref('transactions').push({
-                uid: currentUser.uid,
+                uid: user.uid,
                 email: userData.email,
-                type: currentTxnType,
+                type: txnType,
                 amount: amt,
                 status: 'pending',
-                timestamp: Date.now()
+                timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                alert('ส่งคำขอสำเร็จ รอแอดมินตรวจสอบ');
-                document.getElementById('txn-modal').classList.add('hidden');
-                document.getElementById('txn-amount').value = '';
+                Swal.fire('สำเร็จ', 'ทำรายการแล้ว รอแอดมินตรวจสอบ', 'success');
+                closeModal();
+                document.getElementById('inp-amt').value = '';
             });
         }
 
         function loadHistory() {
-            const list = document.getElementById('history-list');
-            list.innerHTML = '<div class="text-center text-gray-500">กำลังโหลด...</div>';
+            const list = document.getElementById('txn-list');
+            list.innerHTML = '<div class="text-center text-gray-500">Loading...</div>';
             
-            db.ref('transactions').orderByChild('uid').equalTo(currentUser.uid).once('value', s => {
+            db.ref('transactions').orderByChild('uid').equalTo(user.uid).once('value', s => {
                 list.innerHTML = '';
                 const arr = [];
                 s.forEach(c => arr.push(c.val()));
-                arr.reverse(); // Newest first
+                arr.reverse();
 
-                if(arr.length === 0) {
-                    list.innerHTML = '<div class="text-center text-gray-500 mt-10">ไม่มีรายการ</div>';
-                    return;
-                }
+                if(arr.length === 0) { list.innerHTML = '<div class="text-center text-gray-500">ไม่มีรายการ</div>'; return;}
 
                 arr.forEach(t => {
                     const isDep = t.type === 'deposit';
-                    const color = isDep ? 'text-green-500' : 'text-red-500';
-                    const icon = isDep ? 'fa-arrow-down' : 'fa-arrow-up';
+                    const color = isDep ? 'text-green-400' : 'text-red-400';
+                    let stText = t.status === 'approved' ? '<span class="text-green-500">สำเร็จ</span>' : (t.status === 'rejected' ? '<span class="text-red-500">ยกเลิก</span>' : '<span class="text-yellow-500">รอตรวจ</span>');
                     
-                    let statusBadge = '<span class="text-yellow-500">รอตรวจ</span>';
-                    if(t.status === 'approved') statusBadge = '<span class="text-green-500">สำเร็จ</span>';
-                    if(t.status === 'rejected') statusBadge = '<span class="text-red-500">ยกเลิก</span>';
-
                     list.innerHTML += `
-                        <div class="bg-slate-800 p-4 rounded-xl flex justify-between items-center border border-slate-700">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center ${color}">
-                                    <i class="fas ${icon}"></i>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-white">${isDep?'ฝากเงิน':'ถอนเงิน'}</div>
-                                    <div class="text-xs text-gray-400">${new Date(t.timestamp).toLocaleString('th-TH')}</div>
-                                </div>
+                        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-white uppercase">${isDep ? 'ฝากเงิน' : 'ถอนเงิน'}</div>
+                                <div class="text-xs text-gray-500">${new Date(t.timestamp).toLocaleString('th-TH')}</div>
                             </div>
                             <div class="text-right">
-                                <div class="font-bold ${color} text-lg">${t.amount.toLocaleString()}</div>
-                                <div class="text-xs font-bold">${statusBadge}</div>
+                                <div class="font-mono font-bold ${color} text-lg">${isDep?'+':'-'}${t.amount}</div>
+                                <div class="text-xs font-bold">${stText}</div>
                             </div>
                         </div>
                     `;
@@ -375,212 +361,159 @@
             });
         }
 
-        // 5. GAME ENGINE (POK DENG) - REWRITTEN FOR ANIMATIONS
-        let deck = [];
+        // --- 5. GAME LOGIC (POK DENG) ---
+        let bet = 0;
         let pHand = [], dHand = [];
-        let curBet = 0;
-        let gState = 'bet'; // bet, action, end
+        let deck = [];
 
-        function resetGameTable() {
-            gState = 'bet';
-            curBet = 0;
-            pHand = [];
-            dHand = [];
+        function resetTable() {
+            bet = 0;
+            pHand = []; dHand = [];
             document.getElementById('txt-bet').innerText = '0';
-            document.getElementById('game-status-text').innerText = '';
-            
-            // UI
+            document.getElementById('btn-confirm').disabled = true;
             document.getElementById('ctrl-bet').classList.remove('hidden');
             document.getElementById('ctrl-action').classList.add('hidden');
             document.getElementById('ctrl-reset').classList.add('hidden');
-            document.getElementById('btn-deal').disabled = true;
-
             document.getElementById('hand-player').innerHTML = '';
             document.getElementById('hand-dealer').innerHTML = '';
             document.getElementById('score-player').classList.add('scale-0');
             document.getElementById('score-dealer').classList.add('scale-0');
+            document.getElementById('game-result').classList.remove('opacity-100');
+            document.getElementById('game-result').classList.add('opacity-0');
         }
 
         function addBet(amt) {
-            if(gState !== 'bet') return;
-            if(curBet + amt > userData.balance) return Swal.fire('เงินไม่พอ!');
-            curBet += amt;
-            document.getElementById('txt-bet').innerText = curBet.toLocaleString();
-            document.getElementById('btn-deal').disabled = false;
+            if(bet + amt > userData.balance) return Swal.fire('เงินไม่พอ!');
+            bet += amt;
+            document.getElementById('txt-bet').innerText = bet;
+            document.getElementById('btn-confirm').disabled = false;
         }
-        function resetBet() {
-            if(gState !== 'bet') return;
-            curBet = 0;
-            document.getElementById('txt-bet').innerText = '0';
-            document.getElementById('btn-deal').disabled = true;
-        }
+        function resetBet() { bet = 0; document.getElementById('txt-bet').innerText = 0; document.getElementById('btn-confirm').disabled = true; }
 
         function createDeck() {
-            const s = ['♠', '♥', '♣', '♦'];
+            const suits = ['♠','♥','♣','♦'];
             deck = [];
-            for(let suit of s) for(let v=1; v<=13; v++) deck.push({s: suit, v: v});
+            for(let s of suits) for(let v=1; v<=13; v++) deck.push({s, v});
             deck.sort(() => Math.random() - 0.5);
         }
-        function getCard() { return deck.pop(); }
+        function draw() { return deck.pop(); }
 
-        // --- RIGGING LOGIC INSERTED HERE ---
-        function getRiggedHand(type) {
-             const s = ['♠', '♥', '♣', '♦'];
-             const randS = () => s[Math.floor(Math.random()*4)];
-             
-             if(type === 'win') return [{v:8, s:randS()}, {v:1, s:randS()}]; // 9 Pok
-             if(type === 'lose') return [{v:1, s:randS()}, {v:2, s:randS()}]; // 3 points
-             
-             // Random fallback
-             return [getCard(), getCard()];
-        }
-
-        function startGame() {
-            gState = 'action';
-            
-            // Deduct Balance
-            db.ref('users/' + currentUser.uid).update({ balance: userData.balance - curBet });
-            
-            document.getElementById('ctrl-bet').classList.add('hidden');
-            createDeck();
-
-            // Check Lock
-            const st = userData.status || 'normal';
-            if(st === 'good_luck') {
-                pHand = getRiggedHand('win');
-                dHand = getRiggedHand('lose');
-            } else if (st === 'bad_luck') {
-                pHand = getRiggedHand('lose');
-                dHand = getRiggedHand('win');
-            } else {
-                pHand = [getCard(), getCard()];
-                dHand = [getCard(), getCard()];
-            }
-
-            // Deal Animation
-            dealSequence();
-        }
-
-        function renderCard(card, isHidden = false) {
-            const displayV = {1:'A', 11:'J', 12:'Q', 13:'K'}[card.v] || card.v;
-            const color = (card.s === '♥' || card.s === '♦') ? 'red' : 'black';
+        function renderCard(card, isHidden=false) {
+            const valMap = {1:'A', 11:'J', 12:'Q', 13:'K'};
+            const display = valMap[card.v] || card.v;
+            const isRed = card.s === '♥' || card.s === '♦';
             
             return `
-                <div class="card-slot">
-                    <div class="playing-card ${isHidden ? '' : 'flipped'}">
+                <div class="card-container">
+                    <div class="card-inner ${isHidden ? '' : 'card-flipped'}">
                         <div class="card-face card-back"></div>
-                        <div class="card-face card-front ${color}">
-                            <div class="absolute top-1 left-1 text-sm leading-none">${displayV}<br>${card.s}</div>
-                            <div class="text-3xl">${card.s}</div>
-                            <div class="absolute bottom-1 right-1 text-sm leading-none rotate-180">${displayV}<br>${card.s}</div>
+                        <div class="card-face card-front ${isRed ? 'card-red' : ''}">
+                             <div class="absolute top-1 left-1 text-xs leading-none">${display}<br>${card.s}</div>
+                             <div class="text-2xl">${card.s}</div>
+                             <div class="absolute bottom-1 right-1 text-xs leading-none rotate-180">${display}<br>${card.s}</div>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        async function dealSequence() {
+        async function startGame() {
+            // Cut Balance
+            db.ref('users/' + user.uid).update({ balance: userData.balance - bet });
+
+            createDeck();
+            document.getElementById('ctrl-bet').classList.add('hidden');
+            
+            // Initial Draw
+            pHand = [draw(), draw()];
+            dHand = [draw(), draw()];
+
+            // Animation Sequence
             const hP = document.getElementById('hand-player');
             const hD = document.getElementById('hand-dealer');
 
-            // 1. Dealer Cards (Hidden)
             hD.innerHTML += renderCard(dHand[0], true);
             hD.innerHTML += renderCard(dHand[1], true);
             
-            // 2. Player Cards (Revealed with delay)
-            await new Promise(r => setTimeout(r, 300));
-            hP.innerHTML += renderCard(pHand[0]); // Auto flipped by CSS
-            await new Promise(r => setTimeout(r, 300));
-            hP.innerHTML += renderCard(pHand[1]);
-
+            await wait(300); hP.innerHTML += renderCard(pHand[0]);
+            await wait(300); hP.innerHTML += renderCard(pHand[1]);
+            
             updateScore('player', pHand);
 
-            // Check Pok
-            const pScore = calcScore(pHand);
-            const dScore = calcScore(dHand);
-
-            if(pScore >= 8 || dScore >= 8) {
-                setTimeout(() => endRound(), 1000);
+            // Check Pok (8/9)
+            if(calc(pHand)%10 >= 8 || calc(dHand)%10 >= 8) {
+                endGame();
             } else {
                 document.getElementById('ctrl-action').classList.remove('hidden');
             }
         }
 
-        function playerAction(act) {
-            document.getElementById('ctrl-action').classList.add('hidden');
-            if(act === 'hit') {
-                const c = getCard();
-                pHand.push(c);
-                document.getElementById('hand-player').innerHTML += renderCard(c);
-                updateScore('player', pHand);
-            }
-            
-            // Dealer Logic
-            setTimeout(() => {
-                // Dealer logic: If < 4 hit, else stay (simplified)
-                if(calcScore(dHand) < 4) {
-                    const c = getCard();
-                    dHand.push(c);
-                    document.getElementById('hand-dealer').innerHTML += renderCard(c, true);
-                }
-                endRound();
-            }, 800);
+        function hitCard() {
+            const c = draw();
+            pHand.push(c);
+            document.getElementById('hand-player').innerHTML += renderCard(c);
+            updateScore('player', pHand);
+            stay();
         }
 
-        function endRound() {
-            // Flip Dealer Cards
-            const slots = document.getElementById('hand-dealer').querySelectorAll('.playing-card');
-            slots.forEach(el => el.classList.add('flipped'));
+        async function stay() {
+            document.getElementById('ctrl-action').classList.add('hidden');
+            
+            // Dealer Logic: if < 4 hit
+            if(calc(dHand)%10 < 4) {
+                await wait(500);
+                const c = draw();
+                dHand.push(c);
+                document.getElementById('hand-dealer').innerHTML += renderCard(c, true);
+            }
+            await wait(500);
+            endGame();
+        }
+
+        function endGame() {
+            // Reveal Dealer
+            const dCards = document.getElementById('hand-dealer').querySelectorAll('.card-inner');
+            dCards.forEach(c => c.classList.add('card-flipped'));
             updateScore('dealer', dHand);
 
-            // Calculate Winner
-            const pS = calcScore(pHand);
-            const dS = calcScore(dHand);
+            const pS = calc(pHand) % 10;
+            const dS = calc(dHand) % 10;
             
-            let result = '';
-            let profit = 0;
+            const rTxt = document.getElementById('game-result');
+            let winAmt = 0;
 
             if(pS > dS) {
-                result = 'YOU WIN!';
-                profit = curBet * 2;
-                document.getElementById('game-status-text').className = 'text-2xl font-bold text-green-500 mt-2 h-8';
+                rTxt.innerHTML = '<span class="text-green-400 drop-shadow-md">YOU WIN!</span>';
+                winAmt = bet * 2;
             } else if (pS < dS) {
-                result = 'YOU LOSE!';
-                document.getElementById('game-status-text').className = 'text-2xl font-bold text-red-500 mt-2 h-8';
+                rTxt.innerHTML = '<span class="text-red-500 drop-shadow-md">YOU LOSE</span>';
             } else {
-                result = 'DRAW';
-                profit = curBet;
-                document.getElementById('game-status-text').className = 'text-2xl font-bold text-gray-300 mt-2 h-8';
+                rTxt.innerHTML = '<span class="text-gray-300 drop-shadow-md">DRAW</span>';
+                winAmt = bet;
             }
 
-            document.getElementById('game-status-text').innerText = result;
+            rTxt.classList.remove('opacity-0');
+            rTxt.classList.add('opacity-100');
 
-            if(profit > 0) {
-                db.ref('users/' + currentUser.uid).update({ balance: userData.balance + profit });
+            if(winAmt > 0) {
+                db.ref('users/' + user.uid).update({ balance: userData.balance + winAmt });
             }
 
             document.getElementById('ctrl-reset').classList.remove('hidden');
         }
 
-        function calcScore(cards) {
-            let s = 0;
-            cards.forEach(c => {
-                let v = c.v >= 10 ? 0 : c.v;
-                s += v;
-            });
-            return s % 10;
+        function calc(hand) {
+            return hand.reduce((a, b) => a + (b.v > 10 ? 0 : b.v), 0);
         }
 
-        function updateScore(who, cards) {
-            const sc = calcScore(cards);
+        function updateScore(who, hand) {
+            const sc = calc(hand) % 10;
             const el = document.getElementById('score-'+who);
             el.innerText = sc;
             el.classList.remove('scale-0');
         }
-        
-        function openLinkLine() {
-            window.open('https://line.me/ti/p/~yourid', '_blank');
-        }
+
+        function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
     </script>
 </body>
