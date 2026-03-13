@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RSP Play | พรีเมียม</title>
+    <title>RSP Play | เป่าฉุบ</title>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -28,9 +28,13 @@
         .game-btn { background: var(--card); border: 2px solid var(--border); border-radius: 24px; aspect-ratio: 1; font-size: 3.5rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; cursor: pointer; }
         .game-btn:active:not(.locked) { transform: scale(0.90); border-color: var(--primary); }
         .game-btn.locked { opacity: 0.5; pointer-events: none; }
-        .bank-card { display: flex; flex-direction: column; align-items: center; padding: 12px 8px; border-radius: 16px; border: 2px solid var(--border); cursor: pointer; opacity: 0.7; }
+        .bank-card { display: flex; flex-direction: column; align-items: center; padding: 12px 8px; border-radius: 16px; border: 2px solid var(--border); cursor: pointer; opacity: 0.7; transition: 0.2s; }
         .bank-card.selected { border-color: #007AFF; background: #F0F8FF; opacity: 1; transform: scale(1.05); }
         .bank-logo { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-bottom: 6px; }
+        
+        /* ซ่อน Scrollbar สำหรับธนาคาร */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
@@ -103,10 +107,16 @@
 
             <div id="sec-wit" class="hidden card-ui p-6">
                 <h3 class="font-bold text-sm mb-3">เลือกธนาคาร</h3>
-                <div class="grid grid-cols-3 gap-2 mb-4">
-                    <div class="bank-card" onclick="selBank(this, 'กสิกรไทย')"><div class="bank-logo bg-green-500">K</div><span class="text-[10px] font-bold">กสิกรไทย</span></div>
-                    <div class="bank-card" onclick="selBank(this, 'ไทยพาณิชย์')"><div class="bank-logo bg-purple-600">S</div><span class="text-[10px] font-bold">ไทยพาณิชย์</span></div>
-                    <div class="bank-card" onclick="selBank(this, 'ทรูมันนี่')"><div class="bank-logo bg-orange-500">T</div><span class="text-[10px] font-bold">ทรูมันนี่</span></div>
+                <div class="grid grid-cols-3 gap-2 mb-4 max-h-48 overflow-y-auto no-scrollbar p-1">
+                    <div class="bank-card" onclick="selBank(this, 'กสิกรไทย')"><div class="bank-logo bg-[#00A950]">K</div><span class="text-[10px] font-bold">กสิกรไทย</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'ไทยพาณิชย์')"><div class="bank-logo bg-[#4E2A84]">S</div><span class="text-[10px] font-bold">ไทยพาณิชย์</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'ทรูมันนี่')"><div class="bank-logo bg-[#FF8200]">T</div><span class="text-[10px] font-bold">ทรูมันนี่</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'กรุงไทย')"><div class="bank-logo bg-[#1BA5E1]">KT</div><span class="text-[10px] font-bold">กรุงไทย</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'กรุงเทพ')"><div class="bank-logo bg-[#1E4598]">B</div><span class="text-[10px] font-bold">กรุงเทพ</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'กรุงศรี')"><div class="bank-logo bg-[#FEC43B]">AY</div><span class="text-[10px] font-bold">กรุงศรี</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'ออมสิน')"><div class="bank-logo bg-[#EB198D]">G</div><span class="text-[10px] font-bold">ออมสิน</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'ทีทีบี')"><div class="bank-logo bg-[#0050F0]">ttb</div><span class="text-[10px] font-bold">ทีทีบี</span></div>
+                    <div class="bank-card" onclick="selBank(this, 'ธ.ก.ส.')"><div class="bank-logo bg-[#4B8F32]">BA</div><span class="text-[10px] font-bold">ธ.ก.ส.</span></div>
                 </div>
                 <input type="hidden" id="w-bank">
                 <div class="space-y-3">
@@ -127,7 +137,14 @@
                 <button onclick="logout()" class="w-10 h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center"><i class="fas fa-power-off"></i></button>
             </div>
             
-            <button onclick="contactAdmin()" class="w-full card-ui p-4 text-blue-600 font-bold text-sm mb-6 flex justify-center items-center gap-2 border-blue-100"><i class="fab fa-facebook"></i> ติดต่อแอดมิน (Facebook)</button>
+            <button onclick="contactAdmin()" class="w-full card-ui p-4 text-blue-600 font-bold text-sm mb-4 flex justify-center items-center gap-2 border-blue-100"><i class="fab fa-facebook"></i> ติดต่อแอดมิน (Facebook)</button>
+
+            <div class="flex justify-between items-end mb-3 px-1">
+                <h3 class="font-bold text-gray-800">ประวัติการทำรายการ</h3>
+                <button onclick="refreshData()" class="text-blue-500 text-sm font-bold flex items-center gap-1 active:scale-95 transition">
+                    <i class="fas fa-sync-alt" id="refresh-icon"></i> รีเฟรช
+                </button>
+            </div>
 
             <div class="flex mb-4 bg-white rounded-xl p-1 shadow-sm">
                 <button onclick="switchHist('game')" id="btn-h-game" class="flex-1 py-2 text-sm font-bold bg-blue-50 text-blue-600 rounded-lg">ประวัติเล่น</button>
@@ -170,7 +187,7 @@
                     }
                 });
                 db.collection('settings').doc('contact').onSnapshot(doc => { if(doc.exists) adminUrl = doc.data().url; });
-                loadHistoryNoIndex(); // โหลดประวัติแบบไม่พึ่ง Index
+                loadHistoryNoIndex(); 
             } else {
                 document.getElementById('auth-screen').classList.remove('hidden');
                 document.getElementById('app-screen').classList.add('hidden');
@@ -210,13 +227,33 @@
         async function play(choice) {
             if(isPlay) return;
             const bet = parseInt(document.getElementById('bet').value);
-            if(bet < 10 || bet > uData.balance) return Toast.fire({icon:'error', title:'ยอดเงินไม่ถูกต้อง'});
+            if(bet < 10 || bet > (uData.balance||0)) return Toast.fire({icon:'error', title:'ยอดเงินไม่ถูกต้อง'});
             
             isPlay = true; document.querySelectorAll('.cmd-btn').forEach(b => b.classList.add('locked'));
             await db.collection('users').doc(auth.currentUser.uid).update({balance: firebase.firestore.FieldValue.increment(-bet)});
             
-            Swal.fire({title:'กำลังเป่ายิ้งฉุบ...', showConfirmButton:false, timer:2000});
+            // 🟢 อนิเมชันบอทสุ่มเป่ายิ้งฉุบ
+            const emos = ['✊', '🖐', '✌️'];
+            let cycle = 0;
+            
+            Swal.fire({
+                title: 'บอทกำลังสุ่ม...',
+                html: `<div class="text-[5rem] my-4 drop-shadow-lg" id="bot-anim-emo">✊</div><p class="text-sm font-bold text-blue-500">กำลังทายผล โปรดรอสักครู่...</p>`,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    const animEmo = document.getElementById('bot-anim-emo');
+                    window.botAnimInterval = setInterval(() => {
+                        animEmo.innerText = emos[cycle % 3];
+                        cycle++;
+                    }, 120); // สลับไอคอนทุกๆ 0.12 วินาที
+                },
+                willClose: () => clearInterval(window.botAnimInterval)
+            });
+
+            // หน่วงเวลา 1.5 วินาที ก่อนเฉลย
             setTimeout(async () => {
+                Swal.close();
                 const win = (Math.random()*100) < (uData.winRate||35);
                 const botC = win ? (choice=='rock'?'scissors':choice=='paper'?'rock':'paper') : (choice=='rock'?'paper':choice=='paper'?'scissors':'rock');
                 const emo = {rock:'✊', paper:'🖐', scissors:'✌️'};
@@ -229,11 +266,17 @@
                 });
 
                 Swal.fire({
-                    html: `<h2 class="text-2xl font-black ${win?'text-green-500':'text-red-500'} mb-4">${win?'ชนะ!':'แพ้!'}</h2>
-                           <div class="text-5xl mb-4">${emo[choice]} VS ${emo[botC]}</div>
-                           <p class="font-bold">${win?'+':'-'}${bet} ฿</p>`,
+                    html: `<h2 class="text-3xl font-black ${win?'text-green-500':'text-red-500'} mb-4">${win?'ชนะ!':'แพ้!'}</h2>
+                           <div class="flex justify-center items-center gap-6 mb-4">
+                               <div class="flex flex-col items-center"><span class="text-xs text-blue-500 font-bold mb-1 bg-blue-50 px-3 rounded-full">คุณ</span><span class="text-6xl drop-shadow-md">${emo[choice]}</span></div>
+                               <span class="text-2xl text-gray-300 font-black">VS</span>
+                               <div class="flex flex-col items-center"><span class="text-xs text-red-500 font-bold mb-1 bg-red-50 px-3 rounded-full">บอท</span><span class="text-6xl drop-shadow-md">${emo[botC]}</span></div>
+                           </div>
+                           <p class="font-black text-xl">${win?'+':'-'}${bet} ฿</p>`,
+                    confirmButtonColor: '#1A1A1A',
+                    confirmButtonText: 'ตกลง'
                 }).then(() => { isPlay = false; document.querySelectorAll('.cmd-btn').forEach(b => b.classList.remove('locked')); loadHistoryNoIndex(); });
-            }, 2000);
+            }, 1500);
         }
 
         // WALLET
@@ -278,17 +321,26 @@
             document.getElementById('btn-h-trans').className = t==='trans' ? 'flex-1 py-2 text-sm font-bold bg-blue-50 text-blue-600 rounded-lg' : 'flex-1 py-2 text-sm font-bold text-gray-400 rounded-lg';
         }
 
-        // 🟢 หัวใจสำคัญ: โหลดประวัติแบบ JS Sort (ไม่ต้องง้อ Index Firebase)
+        // 🟢 ฟังก์ชันรีเฟรชประวัติ
+        async function refreshData() {
+            const icon = document.getElementById('refresh-icon');
+            if(icon) icon.classList.add('fa-spin');
+            await loadHistoryNoIndex();
+            setTimeout(() => { 
+                if(icon) icon.classList.remove('fa-spin'); 
+                Toast.fire({icon:'success', title:'อัปเดตข้อมูลล่าสุดแล้ว'}); 
+            }, 800);
+        }
+
+        // HISTORY
         async function loadHistoryNoIndex() {
             const uid = auth.currentUser.uid;
             const emo = {rock:'✊', paper:'🖐', scissors:'✌️'};
             
-            // 1. ดึงข้อมูลเกม โดย query แค่ uid (ไม่ orderBy ทำให้ไม่ติดปัญหา Index)
             const snapGame = await db.collection('plays').where('uid', '==', uid).get();
             let games = snapGame.docs.map(d => d.data());
-            // Sort ด้วย JavaScript
             games.sort((a,b) => b.time - a.time);
-            games = games.slice(0, 20); // เอาแค่ 20 ล่าสุด
+            games = games.slice(0, 20); 
 
             let hg = games.length ? '' : '<p class="text-center text-gray-400 text-sm py-4">ไม่มีประวัติ</p>';
             games.forEach(d => {
@@ -301,7 +353,6 @@
             });
             document.getElementById('h-game').innerHTML = hg;
 
-            // 2. ดึงข้อมูลธุรกรรม
             const snapTrans = await db.collection('transactions').where('uid', '==', uid).get();
             let trans = snapTrans.docs.map(d => d.data());
             trans.sort((a,b) => b.time - a.time);
